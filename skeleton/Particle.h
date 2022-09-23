@@ -7,7 +7,7 @@
 class Particle
 {
 public:
-	Particle(Vector3 pos_, Vector3 vel_, float size_);
+	Particle(Vector3 pos_, Vector3 vel_, float size_, Vector3 acc_ = { 0, -2 , 0 }, float damping_ = 0.999 );
 	~Particle();
 
 
@@ -18,7 +18,8 @@ protected:
 	Vector3 vel;
 	RenderItem* render;
 
-	double size;
+	Vector3 acc;
+	float damping;
 
 };
 

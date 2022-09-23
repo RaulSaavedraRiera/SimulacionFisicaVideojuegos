@@ -60,7 +60,7 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 
-	particle = new Particle({0, 0, 0}, {0, 5, 0}, 5);
+	particle = new Particle({20, 30, 0}, {-5, 10, 0}, 5);
 	}
 
 
