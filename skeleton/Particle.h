@@ -11,7 +11,7 @@ public:
 	~Particle();
 
 
-	bool integrate(double t);
+	virtual bool integrate(double t);
 
 protected:
 	physx::PxTransform pos;

@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include "Particle.h"
+#include "CanonBall.h"
 
 
 using namespace physx;
@@ -18,22 +18,26 @@ using namespace physx;
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
 
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics	= NULL;
+PxFoundation* gFoundation = NULL;
+PxPhysics* gPhysics = NULL;
 
 
-PxMaterial*				gMaterial	= NULL;
+PxMaterial* gMaterial = NULL;
 
-PxPvd*                  gPvd        = NULL;
+PxPvd* gPvd = NULL;
 
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene      = NULL;
+PxDefaultCpuDispatcher* gDispatcher = NULL;
+PxScene* gScene = NULL;
 ContactReportCallback gContactReportCallback;
 
 
-//practica 0
-Particle* particle = NULL;
+//practica 1
+CanonBall* canonBall = NULL;
 
+RenderItem* ground = NULL;
+RenderItem* diane = NULL;
+
+std::vector<Particle*> particles;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -44,9 +48,9 @@ void initPhysics(bool interactive)
 
 	gPvd = PxCreatePvd(*gFoundation);
 	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	gPvd->connect(*transport,PxPvdInstrumentationFlag::eALL);
+	gPvd->connect(*transport, PxPvdInstrumentationFlag::eALL);
 
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
@@ -59,9 +63,11 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-
-	particle = new Particle({20, 30, 0}, {-5, 10, 0}, 5);
-	}
+	
+	ground = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform( -100, -5, -100 ), {1,1,1,1});
+	diane = new RenderItem(CreateShape(PxBoxGeometry(5, 5, 5)), new PxTransform(-140, 10, -170), {1,0,0,1});
+	//canonBall = new CanonBall({ 20, 30, 0 }, 50, 5, { 0, -0.2, 0 }, 0.999, 200);
+}
 
 
 // Function to configure what happens in each step of physics
@@ -74,7 +80,10 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	particle->integrate(t);
+	for (int i = 0; i < particles.size(); i++)
+	{
+		particles[i]->integrate(t);
+	}
 }
 
 // Function to clean data
@@ -87,32 +96,35 @@ void cleanupPhysics(bool interactive)
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
-	gPhysics->release();	
+	gPhysics->release();
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
-	
+
 	gFoundation->release();
 
 
-	delete particle;
-	particle = nullptr;
+	delete canonBall;
+	canonBall = nullptr;
 
-	}
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	switch(toupper(key))
+	switch (toupper(key))
 	{
-	//case 'B': break;
-	//case ' ':	break;
+		//case 'B': break;
+		//case ' ':	break;
 	case ' ':
 	{
 		break;
 	}
+	case 'Q':
+		particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, {0, -0.5, 0}, 0.999, 350));
+		break;
 	default:
 		break;
 	}
@@ -125,7 +137,7 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 }
 
 
-int main(int, const char*const*)
+int main(int, const char* const*)
 {
 #ifndef OFFLINE_EXECUTION 
 	extern void renderLoop();
@@ -133,7 +145,7 @@ int main(int, const char*const*)
 #else
 	static const PxU32 frameCount = 100;
 	initPhysics(false);
-	for(PxU32 i=0; i<frameCount; i++)
+	for (PxU32 i = 0; i < frameCount; i++)
 		stepPhysics(false);
 	cleanupPhysics(false);
 #endif

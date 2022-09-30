@@ -13,6 +13,10 @@
     <ClCompile Include="Particle.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Proyectile.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="CanonBall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -27,6 +31,10 @@
     <ClInclude Include="Particle.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Proyectile.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="CanonBall.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
