@@ -12,6 +12,8 @@
 
 #include "CanonBall.h"
 
+#include "SistemaDeParticulas.h"
+
 
 using namespace physx;
 
@@ -39,6 +41,8 @@ RenderItem* diane = NULL;
 
 std::vector<Particle*> particles;
 
+SistemaDeParticulas* particleSystem;
+
 // Initialize physics engine
 void initPhysics(bool interactive)
 {
@@ -64,9 +68,12 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	
-	ground = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform( -100, -5, -100 ), {1,1,1,1});
-	diane = new RenderItem(CreateShape(PxBoxGeometry(5, 5, 5)), new PxTransform(-140, 10, -170), {1,0,0,1});
+	//ground = new RenderItem(CreateShape(PxBoxGeometry(500, 1, 500)), new PxTransform( -100, -5, -100 ), {1,1,1,1});
+	//diane = new RenderItem(CreateShape(PxBoxGeometry(5, 5, 5)), new PxTransform(-140, 10, -170), {1,0,0,1});
 	//canonBall = new CanonBall({ 20, 30, 0 }, 50, 5, { 0, -0.2, 0 }, 0.999, 200);
+
+	particleSystem = new SistemaDeParticulas();
+	//particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, {0,0,0}, {0, 2, 0});
 }
 
 
@@ -84,6 +91,8 @@ void stepPhysics(bool interactive, double t)
 	{
 		particles[i]->integrate(t);
 	}
+
+	particleSystem->Update(t);
 }
 
 // Function to clean data
@@ -118,12 +127,53 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		//case 'B': break;
 		//case ' ':	break;
-	case ' ':
+	case 'E':
 	{
+		particleSystem->CreateFireWorkSystem('E');
+		break;
+	}
+	case 'R':
+	{
+		particleSystem->CreateFireWorkSystem('R');
+		break;
+	}
+	case 'T':
+	{
+		particleSystem->CreateFireWorkSystem('T');
+		break;
+	}
+	case 'Y':
+	{
+		particleSystem->CreateFireWorkSystem('Y');
+		break;
+	}
+	case 'U':
+	{
+		particleSystem->CreateFireWorkSystem('U');
+		break;
+	}
+	case 'I':
+	{
+		particleSystem->CreateFireWorkSystem('I');
+		break;
+	}
+	case 'H':
+	{
+		particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, { 0,0,0 }, { 0, 5, 5 });
+		break;
+	}
+	case 'F':
+	{
+		particleSystem->CreateParticleGenerator(SistemaDeParticulas::laser, { 0,0,0 }, { 0, 2, 0 });
+		break;
+	}
+	case 'G':
+	{
+		particleSystem->CreateParticleGenerator(SistemaDeParticulas::snow, { 0,0,0 }, { 0, 0, 0 });
 		break;
 	}
 	case 'Q':
-		particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, {0, -0.5, 0}, 0.999, 350));
+		particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, 10, {0, -0.5, 0}, 0.999, 350));
 		break;
 	default:
 		break;
