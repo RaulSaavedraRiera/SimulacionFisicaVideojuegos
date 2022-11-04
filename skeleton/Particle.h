@@ -11,17 +11,27 @@ class Particle
 	friend class UniformParticleGenerator;
 
 public:
-	Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 color = { 1, 1, 1, 1 }, Vector3 acc_ = { 0, -2 , 0 }, float damping_ = 0.999);
+	Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 color = { 1, 1, 1, 1 },Vector3 acc_ = { 0, -2 , 0 }, float damping_ = 0.999, double mass = 20);
 	~Particle();
 
 
 	virtual bool integrate(double t);
 
-	virtual Particle* clone() const { return new Particle(pos.p, vel, size, timeDestroy, color, acc, damping); };
+	virtual Particle* clone() const { return new Particle(pos.p, vel, size, timeDestroy, color, acc, damping, mass); };
+
+	void clearForce() { force = { 0,0,0 }; };
+	void addForce(const Vector3& f) { force += f; };
+
+	void setMass(double m) { mass = m; inverseMass = 1 / mass;}
+
+
+	const double getInverseMass() { return inverseMass; };
+	const double getMass() { return mass; };
 
 protected:
 	physx::PxTransform pos;
 	Vector3 vel;
+	Vector3 force;
 	Vector4 color;
 
 	RenderItem* render;
@@ -31,5 +41,7 @@ protected:
 	double timeDestroy, timePass;
 
 	double size;
+	double mass;
+	double inverseMass;
 };
 

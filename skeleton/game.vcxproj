@@ -257,9 +257,12 @@
     <ClCompile Include="CanonBall.cpp" />
     <ClCompile Include="CircleParticleGenerator.cpp" />
     <ClCompile Include="FireWork.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
+    <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleForceRegistry.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
@@ -274,8 +277,11 @@
     <ClInclude Include="CircleParticleGenerator.h" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="FireWork.h" />
+    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
+    <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleForceRegistry.h" />
     <ClInclude Include="ParticleGenerator.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="RenderUtils.hpp" />

@@ -4,6 +4,10 @@
 
 SistemaDeParticulas::SistemaDeParticulas()
 {
+	gravity = new GravityForceGenerator({ 0, -9.8, 0 });
+	forces.push_back(gravity);
+	forceRegistry = new ParticleForceRegistry();
+
 	fountainP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.8, 5, { 0, 1, 1, 1 }, { 0, -2 , 0 }, 0.99);
 	snowP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.6, 5, { 1, 1, 1, 1 }, { 0, -0.5 , 0 }, 0.99);
 	laserP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
@@ -11,6 +15,12 @@ SistemaDeParticulas::SistemaDeParticulas()
 	fuenteS.devTip_pos = { 1, 0, 1 }; fuenteS.devTip_vel = { 3, 0, 6 }; fuenteS.n_particles = 4; fuenteS.random = 1; fuenteS.randomPos = 0.2;
 	snowS.pos_width = { 1, 0, 1 }; snowS.vel_width = { 6, 6, 6 }; snowS.n_particles = 4; snowS.random = 100; snowS.randomPos = 100;
 	laserS.pos_width = { 1, 0, 1 }; laserS.vel_width = { 0, 25, 0 }; laserS.n_particles = 25; laserS.random = 0.1; laserS.randomPos = 3;
+
+
+	auto p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 4, 5, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.99);
+
+	particles.push_back(p);
+	forceRegistry->addRegistry(gravity, p);
 
 }
 
@@ -138,6 +148,8 @@ void SistemaDeParticulas::CreateFireWorkSystem(char c)
 
 void SistemaDeParticulas::Update(double t)
 {
+	forceRegistry->updateForces(t);
+
 	auto i = particles.begin();
 
 	while (i != particles.end()) {
