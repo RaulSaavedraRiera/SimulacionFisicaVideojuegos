@@ -5,6 +5,8 @@
 
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
+#include "UniformWindGenerator.h"
+#include "WhirlWindGenerator.h"
 
 #include "GaussianParticleGenerator.h"
 #include "UniformParticleGenerator.h"
@@ -64,5 +66,6 @@ protected:
 
 	ParticleForceRegistry* forceRegistry;
 	GravityForceGenerator* gravity;
+	UniformWindGenerator* wind;
 };
 

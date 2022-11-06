@@ -4,9 +4,6 @@
 
 SistemaDeParticulas::SistemaDeParticulas()
 {
-	gravity = new GravityForceGenerator({ 0, -9.8, 0 });
-	forces.push_back(gravity);
-	forceRegistry = new ParticleForceRegistry();
 
 	fountainP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.8, 5, { 0, 1, 1, 1 }, { 0, -2 , 0 }, 0.99);
 	snowP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.6, 5, { 1, 1, 1, 1 }, { 0, -0.5 , 0 }, 0.99);
@@ -16,11 +13,17 @@ SistemaDeParticulas::SistemaDeParticulas()
 	snowS.pos_width = { 1, 0, 1 }; snowS.vel_width = { 6, 6, 6 }; snowS.n_particles = 4; snowS.random = 100; snowS.randomPos = 100;
 	laserS.pos_width = { 1, 0, 1 }; laserS.vel_width = { 0, 25, 0 }; laserS.n_particles = 25; laserS.random = 0.1; laserS.randomPos = 3;
 
+	gravity = new GravityForceGenerator({ 0, -9.8, 0 });
+	forces.push_back(gravity);
+	forceRegistry = new ParticleForceRegistry();
+
+	wind = new UniformWindGenerator(0.4, 0.8, { 0, 10, 0 }, { -10, -10, 0 }, 10);
 
 	auto p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 4, 5, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.99);
 
 	particles.push_back(p);
-	forceRegistry->addRegistry(gravity, p);
+	//forceRegistry->addRegistry(gravity, p);
+	forceRegistry->addRegistry(wind, p);
 
 }
 

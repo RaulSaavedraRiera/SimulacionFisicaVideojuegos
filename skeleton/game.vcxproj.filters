@@ -37,9 +37,24 @@
     <ClCompile Include="FireWork.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="ForceGenerator.cpp" />
-    <ClCompile Include="ParticleForceRegistry.cpp" />
-    <ClCompile Include="GravityForceGenerator.cpp" />
+    <ClCompile Include="ForceGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="DragGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleForceRegistry.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityForceGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformWindGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="WhirlWindGenerator.cpp">
+      <Filter>ForceGenerators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -78,9 +93,24 @@
     <ClInclude Include="FireWork.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="ForceGenerator.h" />
-    <ClInclude Include="ParticleForceRegistry.h" />
-    <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="ForceGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="DragGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceRegistry.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformWindGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="WhirlWindGenerator.h">
+      <Filter>ForceGenerators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -91,6 +121,9 @@
     </Filter>
     <Filter Include="Generators">
       <UniqueIdentifier>{ef6ea033-5895-47d4-82bc-fb31e6c1cf1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ForceGenerators">
+      <UniqueIdentifier>{3e7360b5-f347-46ff-84d5-01adc6047f03}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

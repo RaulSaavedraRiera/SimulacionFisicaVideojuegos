@@ -27,6 +27,8 @@ public:
 
 	const double getInverseMass() { return inverseMass; };
 	const double getMass() { return mass; };
+	const Vector3 getPos() { return pos.p; };
+	const Vector3 getVel() { return vel; };
 
 protected:
 	physx::PxTransform pos;
