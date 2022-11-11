@@ -46,3 +46,8 @@ bool Particle::integrate(double t)
 
 	return true;
 }
+
+void Particle::changePos(float x, float y, float z)
+{
+	pos.p += {x, y, z};
+}

@@ -8,7 +8,9 @@ Explosion::Explosion(double k_, double R_, Vector3 p_) : k(k_), R(R_), point(p_)
 
 void Explosion::updateForce(Particle* particle, double t)
 {
-
+	if (!enable)
+		return;
+	
 	w += t;
 
 	if (fabs(particle->getInverseMass() < 1e-10))

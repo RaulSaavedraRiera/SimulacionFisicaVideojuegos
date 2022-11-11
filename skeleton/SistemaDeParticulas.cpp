@@ -21,7 +21,10 @@ SistemaDeParticulas::SistemaDeParticulas()
 
 	whirlWind = new WhirlWindGenerator(2, { 0,10,0 }, 1000);
 
-	
+
+	explosion = new Explosion(500, 100, { 0, 10, 0 });
+
+
 
 }
 
@@ -101,15 +104,15 @@ void SistemaDeParticulas::CreateFireWorkSystem(char c)
 		6, { 0, 0, 0 }, { 0, 0, 0 }, { 0,0,0 }, { 0, -2.5, 0 }, 10, 0.1));
 
 	shared_ptr<UniformParticleGenerator> gen6(new UniformParticleGenerator(this, "fireWork6",
-		new FireWork({ 0,0,0 }, { 0, 20, 0 }, 0.5, 1.25, { gen7}, { 1, 0.5, 0, 1 }),
-		10, { 0,0,0 }, { 0, 0, 0 }, {0,0,0}, {0, 0, 0}, 10, 0.1));
+		new FireWork({ 0,0,0 }, { 0, 20, 0 }, 0.5, 1.25, { gen7 }, { 1, 0.5, 0, 1 }),
+		10, { 0,0,0 }, { 0, 0, 0 }, { 0,0,0 }, { 0, 0, 0 }, 10, 0.1));
 
-	
+
 	//SistemaDeParticulas* s, string name, Particle* p, int n, Vector3 pos, Vector3 v, Vector3 wPos, Vector3 wVel, double rnd, double rndP
 
 
 
-	
+
 
 	if (c == 'E')
 	{
@@ -147,15 +150,46 @@ void SistemaDeParticulas::CreateFireWorkSystem(char c)
 
 }
 
-void SistemaDeParticulas::CreatePhysicsParticle()
+void SistemaDeParticulas::CreatePhysicsParticle(char c)
 {
-	auto p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+	if (c == 'v')
+	{
+		explosion->on();
+		return;
+	}
 
-	particles.push_back(p);
+	
+	Particle* p;
 	//forceRegistry->addRegistry(gravity, p);
 	//forceRegistry->addRegistry(wind, p);
+	std::default_random_engine rnd{ std::random_device{}() };
+	std::uniform_real_distribution<float> interval(-5, 5);
 
-	forceRegistry->addRegistry(whirlWind, p);
+	switch (c)
+	{
+	case 'z':
+		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(whirlWind, p);;
+		break;
+	case 'x':
+		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(wind, p);
+		break;
+	case 'c':
+		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 20, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
+		p->changePos(interval(rnd), interval(rnd), interval(rnd));
+		forceRegistry->addRegistry(explosion, p);
+		break;
+	default:
+		break;
+	}
+
+	particles.push_back(p);
+}
+
+void SistemaDeParticulas::ActivateExplosion()
+{
+	explosion->on();
 }
 
 void SistemaDeParticulas::Update(double t)

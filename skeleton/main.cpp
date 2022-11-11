@@ -176,7 +176,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, 10, {0, -0.5, 0}, 0.999, 350));
 		break;
 	case 'Z':
-		particleSystem->CreatePhysicsParticle();
+		particleSystem->CreatePhysicsParticle('z');
+		break;
+	case 'X':
+		particleSystem->CreatePhysicsParticle('x');
+		break;
+	case 'C':
+		particleSystem->CreatePhysicsParticle('c');
+		break;
+	case 'V':
+		particleSystem->CreatePhysicsParticle('v');
 		break;
 	default:
 		break;

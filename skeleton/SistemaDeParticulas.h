@@ -7,6 +7,7 @@
 #include "GravityForceGenerator.h"
 #include "UniformWindGenerator.h"
 #include "WhirlWindGenerator.h"
+#include "Explosion.h"
 
 #include "GaussianParticleGenerator.h"
 #include "UniformParticleGenerator.h"
@@ -29,7 +30,10 @@ public:
 
 	void CreateFireWorkSystem(char c);
 
-	void CreatePhysicsParticle();
+	void CreatePhysicsParticle(char c);
+
+
+	void ActivateExplosion();
 
 	void Update(double t);
 	
@@ -70,5 +74,6 @@ protected:
 	GravityForceGenerator* gravity;
 	UniformWindGenerator* wind;
 	WhirlWindGenerator* whirlWind;
+	Explosion* explosion;
 };
 

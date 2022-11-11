@@ -24,6 +24,8 @@ public:
 
 	void setMass(double m) { mass = m; inverseMass = 1 / mass;}
 
+	void changePos(float x, float y, float z);
+
 
 	const double getInverseMass() { return inverseMass; };
 	const double getMass() { return mass; };

@@ -8,7 +8,12 @@ class Explosion :  public ForceGenerator
 
 	virtual void updateForce(Particle* particle, double t);
 
+	void on() { enable = true; };
+
 protected:
+
+	bool enable = false;
+
 	double k, R, w;
 	Vector3 point;
 
