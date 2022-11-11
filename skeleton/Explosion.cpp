@@ -1,7 +1,7 @@
 #include "Explosion.h"
 #include <cmath>
 
-Explosion::Explosion(double k_, double R_, Vector3 p_) : k(k_), R(R_), point(p_)
+Explosion::Explosion(double k_, double R_, Vector3 p_) : k(k_), R(0), point(p_) //R(R_)
 {
 	w = 0;
 }
@@ -10,8 +10,6 @@ void Explosion::updateForce(Particle* particle, double t)
 {
 	if (!enable)
 		return;
-	
-	w += t;
 
 	if (fabs(particle->getInverseMass() < 1e-10))
 		return;
@@ -29,7 +27,7 @@ void Explosion::updateForce(Particle* particle, double t)
 		double elev = -(t / w);
 		double mult2 = pow(e, elev);
 
-	forceDir = Vector3(pos.x - point.x, pos.y - point.y, pos.z - point.z) * mult * mult2;
+		forceDir = Vector3(pos.x - point.x, pos.y - point.y, pos.z - point.z) * mult * mult2;
 	}
 	else
 	{
@@ -46,5 +44,17 @@ void Explosion::updateForce(Particle* particle, double t)
 	particle->addForce(dragF);
 
 
+
+}
+
+void Explosion::updateValues(double t)
+{
+	if (!enable)
+		return;
+
+	w += t;
+
+	//añadido para area explosion afecta el tiempo
+	R += t * velSonido/10; 
 
 }

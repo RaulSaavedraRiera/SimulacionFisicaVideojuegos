@@ -8,6 +8,8 @@ class Explosion :  public ForceGenerator
 
 	virtual void updateForce(Particle* particle, double t);
 
+	void updateValues(double t);
+
 	void on() { enable = true; };
 
 protected:
@@ -18,6 +20,6 @@ protected:
 	Vector3 point;
 
 
-	const double e = 2.71828182846;
+	const double e = 2.71828182846, velSonido = 343;
 };
 

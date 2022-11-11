@@ -163,7 +163,7 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 	//forceRegistry->addRegistry(gravity, p);
 	//forceRegistry->addRegistry(wind, p);
 	std::default_random_engine rnd{ std::random_device{}() };
-	std::uniform_real_distribution<float> interval(-5, 5);
+	std::uniform_real_distribution<float> interval(-20, 20);
 
 	switch (c)
 	{
@@ -176,7 +176,7 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 		forceRegistry->addRegistry(wind, p);
 		break;
 	case 'c':
-		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 20, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 3, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
 		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(explosion, p);
 		break;
@@ -194,6 +194,9 @@ void SistemaDeParticulas::ActivateExplosion()
 
 void SistemaDeParticulas::Update(double t)
 {
+	//actualizamos los valores respecot al tiempo antes de la de las fuerzas a las particulas
+	explosion->updateValues(t);
+
 	forceRegistry->updateForces(t);
 
 	auto i = particles.begin();
