@@ -29,6 +29,8 @@ public:
 
 	void CreateFireWorkSystem(char c);
 
+	void CreatePhysicsParticle();
+
 	void Update(double t);
 	
 protected:

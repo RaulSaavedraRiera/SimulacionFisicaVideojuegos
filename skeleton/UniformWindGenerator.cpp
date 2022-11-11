@@ -26,7 +26,7 @@ void UniformWindGenerator::updateForce(Particle* particle, double t)
 
 	auto p = particle->getPos();
 
-	Vector3 v = particle->getVel() + air;
+	Vector3 v = particle->getVel() - air;
 	float drag_coef = v.normalize();
 	Vector3 dragF;
 	drag_coef = (_k1 * drag_coef) + _k2 * drag_coef * drag_coef;

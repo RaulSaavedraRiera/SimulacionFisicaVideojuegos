@@ -19,15 +19,9 @@ SistemaDeParticulas::SistemaDeParticulas()
 
 	wind = new UniformWindGenerator(0.4, 0.8, { 0, 10, 0 }, { -10, -10, 0 }, 10);
 
-	whirlWind = new WhirlWindGenerator(20, { 0,10,0 }, 150);
+	whirlWind = new WhirlWindGenerator(2, { 0,10,0 }, 1000);
 
-	auto p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
-
-	particles.push_back(p);
-	//forceRegistry->addRegistry(gravity, p);
-	//forceRegistry->addRegistry(wind, p);
-
-	forceRegistry->addRegistry(whirlWind, p);
+	
 
 }
 
@@ -151,6 +145,17 @@ void SistemaDeParticulas::CreateFireWorkSystem(char c)
 		particles.push_back(new FireWork({ 0,0,0 }, { 0, 40, 0 }, 1, 1, { gen3, gen1 }, { 0.5, 1, 1, 1 }));
 	}
 
+}
+
+void SistemaDeParticulas::CreatePhysicsParticle()
+{
+	auto p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+
+	particles.push_back(p);
+	//forceRegistry->addRegistry(gravity, p);
+	//forceRegistry->addRegistry(wind, p);
+
+	forceRegistry->addRegistry(whirlWind, p);
 }
 
 void SistemaDeParticulas::Update(double t)

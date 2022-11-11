@@ -257,6 +257,7 @@
     <ClCompile Include="CanonBall.cpp" />
     <ClCompile Include="CircleParticleGenerator.cpp" />
     <ClCompile Include="DragGenerator.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FireWork.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="CircleParticleGenerator.h" />
     <ClInclude Include="core.hpp" />
     <ClInclude Include="DragGenerator.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="FireWork.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
