@@ -5,7 +5,7 @@ class WhirlWindGenerator : public UniformWindGenerator
 {
 public:
 
-	WhirlWindGenerator(float k, Vector3 point, Vector3 air, int range);
+	WhirlWindGenerator(float k, Vector3 point, int range, Vector3 air = {0,0,0});
 	~WhirlWindGenerator();
 
 

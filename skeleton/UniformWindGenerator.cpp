@@ -26,8 +26,6 @@ void UniformWindGenerator::updateForce(Particle* particle, double t)
 
 	auto p = particle->getPos();
 
-	
-
 	Vector3 v = particle->getVel() + air;
 	float drag_coef = v.normalize();
 	Vector3 dragF;
@@ -41,5 +39,5 @@ void UniformWindGenerator::updateForce(Particle* particle, double t)
 
 bool UniformWindGenerator::outZone(Vector3 pP)
 {
-	return pP.x < xMin || pP.x > xMax|| pP.y < yMin || pP.y > yMax || pP.z < zMin || pP.z > zMax;
+	return pP.x < xMin || pP.x > xMax || pP.y < yMin || pP.y > yMax || pP.z < zMin || pP.z > zMax;
 }

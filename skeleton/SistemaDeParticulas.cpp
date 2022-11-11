@@ -19,11 +19,15 @@ SistemaDeParticulas::SistemaDeParticulas()
 
 	wind = new UniformWindGenerator(0.4, 0.8, { 0, 10, 0 }, { -10, -10, 0 }, 10);
 
-	auto p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 4, 5, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.99);
+	whirlWind = new WhirlWindGenerator(20, { 0,10,0 }, 150);
+
+	auto p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
 
 	particles.push_back(p);
 	//forceRegistry->addRegistry(gravity, p);
-	forceRegistry->addRegistry(wind, p);
+	//forceRegistry->addRegistry(wind, p);
+
+	forceRegistry->addRegistry(whirlWind, p);
 
 }
 

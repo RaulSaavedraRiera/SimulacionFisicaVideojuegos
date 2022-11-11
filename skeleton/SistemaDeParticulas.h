@@ -67,5 +67,6 @@ protected:
 	ParticleForceRegistry* forceRegistry;
 	GravityForceGenerator* gravity;
 	UniformWindGenerator* wind;
+	WhirlWindGenerator* whirlWind;
 };
 
