@@ -55,6 +55,6 @@ void Explosion::updateValues(double t)
 	w += t;
 
 	//añadido para area explosion afecta el tiempo
-	R += t * velSonido/10; 
+	R += t * velSonido; 
 
 }
