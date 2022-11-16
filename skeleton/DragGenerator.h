@@ -17,10 +17,14 @@ public:
 	inline float getK1() { return (_k1); };
 	inline float getK2() { return (_k2); };
 
+	void changeEnable() { enabled = !enabled; };
+
 protected:
 	Vector3 _wind;
 
 	float _k1;
 	float _k2;
+
+	bool enabled = false;
 };
 

@@ -10,7 +10,7 @@ class Explosion :  public ForceGenerator
 
 	void updateValues(double t);
 
-	void on() { enable = true; };
+	void change() { enable = !enable; };
 
 protected:
 

@@ -13,6 +13,9 @@ DragGenerator::DragGenerator(const float k1, const float k2) : ForceGenerator()
 
 void DragGenerator::updateForce(Particle* particle, double t)
 {
+
+	if (!enabled) return;
+
 	if (fabs(particle->getInverseMass() < 1e-10)) return;
 
 	Vector3 v = particle->getVel();

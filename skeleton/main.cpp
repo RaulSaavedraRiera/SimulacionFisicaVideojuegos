@@ -187,6 +187,18 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'V':
 		particleSystem->CreatePhysicsParticle('v');
 		break;
+	case '1':
+		particleSystem->ControlForceGenerators('1');
+		break;
+	case '2':
+		particleSystem->ControlForceGenerators('2');
+		break;
+	case '3':
+		particleSystem->ControlForceGenerators('3');
+		break;
+	case '4':
+		particleSystem->ControlForceGenerators('4');
+		break;
 	default:
 		break;
 	}

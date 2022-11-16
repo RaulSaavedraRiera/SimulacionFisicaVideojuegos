@@ -13,6 +13,10 @@ public:
 
     inline void setGravity(Vector3 g) { _gravity = g; };
 
+    void changeEnabled() { enabled = !enabled; };
+
 protected:
     Vector3 _gravity;
+
+    bool enabled = false;
 };

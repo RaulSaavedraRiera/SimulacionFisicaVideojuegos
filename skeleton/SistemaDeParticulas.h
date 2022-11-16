@@ -32,9 +32,10 @@ public:
 
 	void CreatePhysicsParticle(char c);
 
+	void ControlForceGenerators(char c);
 
-	void ActivateExplosion();
 
+	
 	void Update(double t);
 	
 protected:

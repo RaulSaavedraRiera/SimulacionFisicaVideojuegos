@@ -21,6 +21,8 @@ UniformWindGenerator::~UniformWindGenerator()
 
 void UniformWindGenerator::updateForce(Particle* particle, double t)
 {
+	if (!enabled) return;
+
 	if (fabs(particle->getInverseMass() < 1e-10) || outZone(particle->getPos()))
 		return;
 

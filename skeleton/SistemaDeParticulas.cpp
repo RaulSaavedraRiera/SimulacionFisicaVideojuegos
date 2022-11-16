@@ -152,12 +152,6 @@ void SistemaDeParticulas::CreateFireWorkSystem(char c)
 
 void SistemaDeParticulas::CreatePhysicsParticle(char c)
 {
-	if (c == 'v')
-	{
-		explosion->on();
-		return;
-	}
-
 	
 	Particle* p;
 	//forceRegistry->addRegistry(gravity, p);
@@ -168,17 +162,25 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 	switch (c)
 	{
 	case 'z':
-		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
-		forceRegistry->addRegistry(whirlWind, p);;
+		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(wind, p);;
 		break;
 	case 'x':
-		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
-		forceRegistry->addRegistry(wind, p);
+		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(whirlWind, p);
 		break;
 	case 'c':
-		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 3, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 15, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
+		p->setMass((rand() % 100) + 1);
+
+		cout << p->getMass() << endl;
+
 		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(explosion, p);
+		break;
+	case 'v':
+		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(gravity, p);
 		break;
 	default:
 		break;
@@ -187,9 +189,30 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 	particles.push_back(p);
 }
 
-void SistemaDeParticulas::ActivateExplosion()
+void SistemaDeParticulas::ControlForceGenerators(char c)
 {
-	explosion->on();
+
+
+	switch (c)
+	{
+	case '1':
+		gravity->changeEnabled();
+		break;
+	case '2':
+		wind->changeEnable();
+		break;
+	case '3':
+		whirlWind->changeEnable();
+		break;
+	case '4':
+		explosion->change();
+		break;
+
+	default:
+		break;
+	}
+	return;
+
 }
 
 void SistemaDeParticulas::Update(double t)
