@@ -166,7 +166,7 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 		forceRegistry->addRegistry(wind, p);;
 		break;
 	case 'x':
-		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 1, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
 		forceRegistry->addRegistry(whirlWind, p);
 		break;
 	case 'c':
