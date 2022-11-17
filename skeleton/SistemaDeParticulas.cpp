@@ -17,7 +17,7 @@ SistemaDeParticulas::SistemaDeParticulas()
 	forces.push_back(gravity);
 	forceRegistry = new ParticleForceRegistry();
 
-	wind = new UniformWindGenerator(0.4, 0.8, { 0, 10, 0 }, { -10, -10, 0 }, 10);
+	wind = new UniformWindGenerator(1.2, 2, { 0, 10, 0 }, { -10, -10, 0 }, 100);
 
 	whirlWind = new WhirlWindGenerator(2, { 0,10,0 }, 1000);
 
@@ -162,14 +162,19 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 	switch (c)
 	{
 	case 'z':
-		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		forceRegistry->addRegistry(gravity, p);
+		break;
+
+	case 'x':
+		p = new Particle({ 0 ,10, 0 }, { 50, 50, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
 		forceRegistry->addRegistry(wind, p);;
 		break;
-	case 'x':
+	case 'c':
 		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 1, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
 		forceRegistry->addRegistry(whirlWind, p);
 		break;
-	case 'c':
+	case 'v':
 		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 15, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
 		p->setMass((rand() % 100) + 1);
 
@@ -178,10 +183,7 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(explosion, p);
 		break;
-	case 'v':
-		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
-		forceRegistry->addRegistry(gravity, p);
-		break;
+
 	default:
 		break;
 	}
