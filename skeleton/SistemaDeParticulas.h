@@ -39,6 +39,7 @@ public:
 
 	void GenerateSpringDemo();
 	void GenerateSpringDemo2Particles();
+	void GenerateSpringSlinkyDemo();
 	
 	void Update(double t);
 	
