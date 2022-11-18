@@ -17,12 +17,12 @@ SistemaDeParticulas::SistemaDeParticulas()
 	forces.push_back(gravity);
 	forceRegistry = new ParticleForceRegistry();
 
-	wind = new UniformWindGenerator(1.2, 2, { 0, 10, 0 }, { -10, -10, 0 }, 100);
+	wind = new UniformWindGenerator(1.2, 2, { 0, 20, 0 }, { -10, -10, 0 }, 300);
 
-	whirlWind = new WhirlWindGenerator(2, { 0,10,0 }, 1000);
+	whirlWind = new WhirlWindGenerator(2, { 0,20,0 }, 1000);
 
 
-	explosion = new Explosion(500, 100, { 0, 10, 0 });
+	explosion = new Explosion(500, 100, { 0, 20, 0 });
 
 
 
@@ -157,28 +157,31 @@ void SistemaDeParticulas::CreatePhysicsParticle(char c)
 	//forceRegistry->addRegistry(gravity, p);
 	//forceRegistry->addRegistry(wind, p);
 	std::default_random_engine rnd{ std::random_device{}() };
-	std::uniform_real_distribution<float> interval(-20, 20);
+	std::uniform_real_distribution<float> interval(-15, 15);
+	std::uniform_real_distribution<float> size(0.5, 2);
+	std::uniform_real_distribution<float> mass(1, 10);
 
 	switch (c)
 	{
 	case 'z':
-		p = new Particle({ 0 ,10, 0 }, { 0, 0, 0 }, 2, 20, { 1, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ 0 ,20, 0 }, { 0, 0, 0 }, size(rnd), 20, {1, 0, 1, 1}, {0, 0 , 0}, 0.2, mass(rnd));
+		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(gravity, p);
 		break;
 
 	case 'x':
-		p = new Particle({ 0 ,10, 0 }, { 50, 50, 0 }, 2, 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ 0 ,20, 0 }, { 50, 50, 0 }, size(rnd), 20, { 1, 1, 1, 1 }, { 0, 0 , 0 }, 0.2), mass(rnd);
+		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(wind, p);;
 		break;
 	case 'c':
-		p = new Particle({ -10 ,10, 0 }, { 0, 0, 0 }, 1, 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ -10 ,20, 0 }, { 0, 0, 0 }, size(rnd), 20, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.2, mass(rnd));
+		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(whirlWind, p);
 		break;
 	case 'v':
-		p = new Particle({ -0 ,10, 0 }, { 0, 0, 0 }, 0.5, 15, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
+		p = new Particle({ -0 ,20, 0 }, { 0, 0, 0 }, size(rnd), 15, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.2);
 		p->setMass((rand() % 100) + 1);
-
-		cout << p->getMass() << endl;
 
 		p->changePos(interval(rnd), interval(rnd), interval(rnd));
 		forceRegistry->addRegistry(explosion, p);
