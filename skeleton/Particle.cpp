@@ -14,6 +14,11 @@ Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vec
 	render = new RenderItem(CreateShape(PxSphereGeometry(size)), &pos, color);
 }
 
+Particle::Particle(Vector3 pos_, double size_, Vector4 color_) : pos(pos_), size(size_), color(color_)
+{
+	render = new RenderItem(CreateShape(PxBoxGeometry(size, size, size)), &pos, color);
+}
+
 Particle::~Particle()
 {
 	DeregisterRenderItem(render);

@@ -271,6 +271,7 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="SistemaDeParticulas.cpp" />
+    <ClCompile Include="SpringForcegenerator.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
     <ClCompile Include="UniformWindGenerator.cpp" />
     <ClCompile Include="WhirlWindGenerator.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="SistemaDeParticulas.h" />
+    <ClInclude Include="SpringForcegenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
     <ClInclude Include="UniformWindGenerator.h" />
     <ClInclude Include="WhirlWindGenerator.h" />

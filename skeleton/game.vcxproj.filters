@@ -58,6 +58,7 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>ForceGenerators</Filter>
     </ClCompile>
+    <ClCompile Include="SpringForcegenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Explosion.h">
       <Filter>ForceGenerators</Filter>
     </ClInclude>
+    <ClInclude Include="SpringForcegenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -130,6 +132,9 @@
     </Filter>
     <Filter Include="ForceGenerators">
       <UniqueIdentifier>{3e7360b5-f347-46ff-84d5-01adc6047f03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Muelles">
+      <UniqueIdentifier>{67973f60-933b-4bbd-a6a0-2a7989b5d541}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

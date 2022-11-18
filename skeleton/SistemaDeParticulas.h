@@ -16,6 +16,9 @@
 //tios de particulas que usaremos
 #include "CanonBall.h"
 
+//muelles
+#include "SpringForcegenerator.h"
+
 class SistemaDeParticulas
 {
 public:
@@ -34,7 +37,8 @@ public:
 
 	void ControlForceGenerators(char c);
 
-
+	void GenerateSpringDemo();
+	void GenerateSpringDemo2Particles();
 	
 	void Update(double t);
 	
