@@ -86,6 +86,12 @@ protected:
 
 
 	FloatGenerator* floatG = nullptr;
-	GravityForceGenerator * hardGravity = nullptr;;
+	GravityForceGenerator* slowGravity = nullptr;
+	GravityForceGenerator* hardGravity = nullptr;
+
+	SpringForceGenerator* springIdle;
+
+	SpringForceGenerator* spring1;
+	SpringForceGenerator* spring2;
 };
 

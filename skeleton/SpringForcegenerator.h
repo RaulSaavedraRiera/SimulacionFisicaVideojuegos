@@ -12,6 +12,7 @@ public:
 	virtual void updateForce(Particle* p, double t);
 
 	inline void setK(double k) { _k = k; }
+	inline double getK() { return _k; }
 
 protected:
 	double _k;
