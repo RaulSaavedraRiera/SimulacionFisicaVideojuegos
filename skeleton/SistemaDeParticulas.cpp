@@ -218,6 +218,9 @@ void SistemaDeParticulas::ControlForceGenerators(char c)
 	case '7':
 		GenerateSpringSlinkyDemo();
 		break;
+	case '8':
+		GenerateFloatDemo();
+		break;
 	default:
 		break;
 	}
@@ -229,15 +232,15 @@ void SistemaDeParticulas::GenerateSpringDemo()
 {
 
 	//para sin gravedad tienen que estar alejadas, p.x = -10 s.x = 10
-	Particle* p1 = new Particle({ 0, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99);
-	p1->setMass(2);
+	Particle* p1 = new Particle({ 0, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	
 
 
 	//5, 10 para no gravedad
-	SpringForceGenerator* spring = new SpringForceGenerator(10, 20, { 0, 10, 0 });
+	SpringForceGenerator* spring = new SpringForceGenerator(1500, 10, { 0, 10, 0 });
 	forceRegistry->addRegistry(spring, p1);
 
-	GravityForceGenerator* slowGravity = new GravityForceGenerator({ 0, -1, 0 });
+	GravityForceGenerator* slowGravity = new GravityForceGenerator({ 0, -2, 0 });
 	slowGravity->changeEnabled();
 	forceRegistry->addRegistry(slowGravity, p1);
 
@@ -249,8 +252,8 @@ void SistemaDeParticulas::GenerateSpringDemo2Particles()
 {
 
 
-	Particle* p1 = new Particle({ 20, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99);
-	Particle* p2 = new Particle({ -20, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.99);
+	Particle* p1 = new Particle({ 20, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, false);
+	Particle* p2 = new Particle({ -20, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 0, 1, 1 }, { 0, 0 , 0 }, 0.99, false);
 	p1->setMass(2);
 	p2->setMass(2);
 
@@ -273,35 +276,58 @@ void SistemaDeParticulas::GenerateSpringDemo2Particles()
 
 void SistemaDeParticulas::GenerateSpringSlinkyDemo()
 {
-	SpringForceGenerator* springBase = new SpringForceGenerator(1, 5, { 0, 50, 0 });
+	SpringForceGenerator* springBase = new SpringForceGenerator(15, 20, { 0, 70, 0 });
 
-	Particle* p = new Particle({ 0, 45, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 1, 0, 1 }, { 0, 0 , 0 }, 0.99, 2);
+	Particle* p = new Particle({ 0, 60, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 1, 0, 1 }, { 0, 0 , 0 }, 0.8, 2, false);
 
 	forceRegistry->addRegistry(springBase, p);
 	particles.push_back(p);
 
 
-	GravityForceGenerator* slowGravity = new GravityForceGenerator({ 0, -2, 0 });
-	slowGravity->changeEnabled();
 	
 	SpringForceGenerator* spring;
 	//forceRegistry->addRegistry(slowGravity, p);
 
-	int y = 45;
+	int y = 60;
 	for (int i = 0; i < 1; i++)
 	{
-		y -= 5;
+		y -= 10;
 
-		forceRegistry->addRegistry(slowGravity, p);
+		spring = new SpringForceGenerator(15, 20, p);
 
-		spring = new SpringForceGenerator(1, 5, p);
-
-		p = new Particle({ 0, (float)y, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 1, 0, 1 }, { 0, 0 , 0 }, 0.99, 2);
+		p = new Particle({ 0, (float)y, 0 }, { 0, 0, 0 }, 1, 99999, { 0, 1, 0, 1 }, { 0, 0 , 0 }, 0.8, 2, false);
 		particles.push_back(p);
 
 		forceRegistry->addRegistry(spring, p);
 
+		
+
+
 	}
+}
+
+void SistemaDeParticulas::GenerateFloatDemo()
+{
+
+	if (floatG == nullptr) {
+		floatG = new FloatGenerator(1, 10, 10);
+
+		hardGravity = new GravityForceGenerator({ 0, -9.8, 0 });
+		hardGravity->changeEnabled();
+	}
+
+
+
+	std::default_random_engine rnd{ std::random_device{}() };
+	std::uniform_real_distribution<double> mass(0.5, 200);
+	std::uniform_real_distribution<float> pos(-10, 10);
+
+	
+	Particle* p = new Particle({ 0, 0, 0}, {0, 0, 0}, 1, 99999, {0, 1, 0, 1}, {0, 0 , 0}, 0.8, 20, false);
+	particles.push_back(p);
+
+	forceRegistry->addRegistry(floatG, p);
+	forceRegistry->addRegistry(hardGravity, p);
 }
 
 void SistemaDeParticulas::Update(double t)

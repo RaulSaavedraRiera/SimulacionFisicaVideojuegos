@@ -18,6 +18,7 @@
 
 //muelles
 #include "SpringForcegenerator.h"
+#include "FloatGenerator.h"
 
 class SistemaDeParticulas
 {
@@ -40,17 +41,18 @@ public:
 	void GenerateSpringDemo();
 	void GenerateSpringDemo2Particles();
 	void GenerateSpringSlinkyDemo();
-	
+	void GenerateFloatDemo();
+
 	void Update(double t);
-	
+
 protected:
 
-	
+
 	//plantillas de particula
 	Particle* fountainP;
 	Particle* snowP;
 	Particle* laserP;
-	
+
 
 	std::list<ParticleGenerator*> generators;
 	std::list<ForceGenerator*> forces;
@@ -81,5 +83,9 @@ protected:
 	UniformWindGenerator* wind;
 	WhirlWindGenerator* whirlWind;
 	Explosion* explosion;
+
+
+	FloatGenerator* floatG = nullptr;
+	GravityForceGenerator * hardGravity = nullptr;;
 };
 

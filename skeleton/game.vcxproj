@@ -259,6 +259,7 @@
     <ClCompile Include="DragGenerator.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FireWork.cpp" />
+    <ClCompile Include="FloatGenerator.cpp" />
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="DragGenerator.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="FireWork.h" />
+    <ClInclude Include="FloatGenerator.h" />
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
     <ClInclude Include="GravityForceGenerator.h" />

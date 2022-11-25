@@ -208,6 +208,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case '7':
 		particleSystem->ControlForceGenerators('7');
 		break;
+	case '8':
+		particleSystem->ControlForceGenerators('8');
+		break;
 	default:
 		break;
 	}
