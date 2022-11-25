@@ -26,6 +26,7 @@ public:
 
 	void setMass(double m) { mass = m; inverseMass = 1 / mass;}
 	void setPos(Vector3 newP) { pos.p =newP; }
+	void setVel(Vector3 newV) { vel = newV; }
 
 	void changePos(float x, float y, float z);
 

@@ -5,8 +5,8 @@
 class SpringForceGenerator : public ForceGenerator
 {
 public:
-	SpringForceGenerator(double k, double resting_length, Particle* other);
-	SpringForceGenerator(double k, double resting_length, Vector3 r2);
+	SpringForceGenerator(double k, double resting_length, Particle* other, double min = 0.25);
+	SpringForceGenerator(double k, double resting_length, Vector3 r2, double min = 0.25);
 	~SpringForceGenerator() = default;
 
 	virtual void updateForce(Particle* p, double t);
@@ -17,6 +17,7 @@ public:
 protected:
 	double _k;
 	double _resting_length;
+	double _minL;
 	Particle* _other;
 
 };
