@@ -359,7 +359,7 @@ void SistemaDeParticulas::GenerateFloatDemo()
 {
 
 	if (floatG == nullptr) {
-		floatG = new FloatGenerator(1, 10, 10);
+		floatG = new FloatGenerator(1, 1, 1000);
 
 		hardGravity = new GravityForceGenerator({ 0, -9.8, 0 });
 		hardGravity->changeEnabled();
@@ -368,11 +368,11 @@ void SistemaDeParticulas::GenerateFloatDemo()
 
 
 	std::default_random_engine rnd{ std::random_device{}() };
-	std::uniform_real_distribution<double> sizeMass(0.5, 3);
+	std::uniform_real_distribution<double> sizeMass(0.75, 3);
 	std::uniform_real_distribution<float> pos(-45, 45);
 
 	double sM = sizeMass(rnd);
-	Particle* p = new Particle({ pos(rnd), 5, pos(rnd)}, {0, 0, 0}, sM, 99999, {1, 0, (float)(1/sM), 1}, {0, 0 , 0}, 0.8, 20,sM);
+	Particle* p = new Particle({ pos(rnd), 5, pos(rnd)}, {0, 0, 0}, sM, 99999, {1, 0, (float)(1/sM), 1}, {0, 0 , 0}, 0.35, 20,sM);
 	particles.push_back(p);
 
 	forceRegistry->addRegistry(floatG, p);
