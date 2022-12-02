@@ -1,5 +1,6 @@
 #include "Explosion.h"
 #include <cmath>
+#include <iostream>
 
 Explosion::Explosion(double k_, double R_, Vector3 p_) : k(k_), R(0), point(p_) //R(R_)
 {
@@ -45,6 +46,43 @@ void Explosion::updateForce(Particle* particle, double t)
 
 
 
+}
+
+void Explosion::updateForceRigids(physx::PxRigidDynamic* rigid, double t)
+{
+	
+	if (!enable)
+		return;
+
+	
+
+	auto pos = rigid->getGlobalPose().p;
+
+	double r = sqrt(pow((pos.x - point.x), 2) + pow((pos.y - point.y), 2) + pow((pos.z - point.z), 2));
+
+	Vector3 forceDir;
+
+	if (r < R)
+	{
+		double mult = k / pow(r, 2);
+		double elev = -(t / w);
+		double mult2 = pow(e, elev);
+
+		forceDir = Vector3(pos.x - point.x, pos.y - point.y, pos.z - point.z) * mult * mult2;
+	}
+	else
+	{
+		forceDir = { 0,0,0 };
+	}
+
+	Vector3 v = rigid->getLinearVelocity() - forceDir;
+	float drag_coef = v.normalize();
+	Vector3 dragF;
+	drag_coef = (k * drag_coef) + k * drag_coef * drag_coef;
+	dragF = -v * drag_coef;
+
+
+	rigid->addForce(dragF);
 }
 
 void Explosion::updateValues(double t)

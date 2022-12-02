@@ -26,6 +26,7 @@ SistemaDeParticulas::SistemaDeParticulas()
 
 
 	explosion = new Explosion(500, 100, { 0, 10, 0 });
+	explosion->change();
 
 
 

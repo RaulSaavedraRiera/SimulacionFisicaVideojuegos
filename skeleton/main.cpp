@@ -13,6 +13,7 @@
 #include "CanonBall.h"
 
 #include "SistemaDeParticulas.h"
+#include "WorldManager.h"
 
 
 using namespace physx;
@@ -42,6 +43,7 @@ RenderItem* diane = NULL;
 std::vector<Particle*> particles;
 
 SistemaDeParticulas* particleSystem;
+WorldManager* worldManager;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -73,6 +75,7 @@ void initPhysics(bool interactive)
 	//canonBall = new CanonBall({ 20, 30, 0 }, 50, 5, { 0, -0.2, 0 }, 0.999, 200);
 
 	particleSystem = new SistemaDeParticulas();
+	worldManager = new WorldManager(gPhysics, gScene);
 	//particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, {0,0,0}, {0, 2, 0});
 }
 
@@ -93,6 +96,7 @@ void stepPhysics(bool interactive, double t)
 	}
 
 	particleSystem->Update(t);
+	worldManager->update(t);
 }
 
 // Function to clean data
@@ -214,6 +218,15 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case '9':
 		particleSystem->ControlForceGenerators('9');
 		break;*/
+	case 'J':
+		worldManager->InputActions('j');
+		break;
+	case 'K':
+		worldManager->InputActions('k');
+		break;
+	case 'L':
+		worldManager->InputActions('l');
+		break;
 	default:
 		particleSystem->ControlForceGenerators(tolower(key));
 		break;

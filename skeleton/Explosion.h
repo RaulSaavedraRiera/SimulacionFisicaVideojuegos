@@ -7,6 +7,7 @@ class Explosion :  public ForceGenerator
 	~Explosion() = default;
 
 	virtual void updateForce(Particle* particle, double t);
+	virtual void updateForceRigids(physx::PxRigidDynamic* particle, double t);
 
 	void updateValues(double t);
 

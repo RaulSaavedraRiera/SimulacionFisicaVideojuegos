@@ -60,6 +60,7 @@
     </ClCompile>
     <ClCompile Include="SpringForcegenerator.cpp" />
     <ClCompile Include="FloatGenerator.cpp" />
+    <ClCompile Include="WorldManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -121,6 +122,8 @@
     </ClInclude>
     <ClInclude Include="SpringForcegenerator.h" />
     <ClInclude Include="FloatGenerator.h" />
+    <ClInclude Include="WorldManager.h" />
+    <ClInclude Include="RigidBodyForceRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
