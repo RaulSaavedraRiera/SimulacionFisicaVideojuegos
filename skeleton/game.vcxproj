@@ -271,6 +271,7 @@
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="RotationGenerator.cpp" />
     <ClCompile Include="SistemaDeParticulas.cpp" />
     <ClCompile Include="SpringForcegenerator.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="RigidBodyForceRegistry.h" />
+    <ClInclude Include="RotationGenerator.h" />
     <ClInclude Include="SistemaDeParticulas.h" />
     <ClInclude Include="SpringForcegenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />

@@ -219,13 +219,10 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		particleSystem->ControlForceGenerators('9');
 		break;*/
 	case 'J':
-		worldManager->InputActions('j');
-		break;
 	case 'K':
-		worldManager->InputActions('k');
-		break;
 	case 'L':
-		worldManager->InputActions('l');
+	case 'M':
+		worldManager->InputActions(tolower(key));
 		break;
 	default:
 		particleSystem->ControlForceGenerators(tolower(key));

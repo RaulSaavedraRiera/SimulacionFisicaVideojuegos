@@ -58,9 +58,14 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>ForceGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="SpringForcegenerator.cpp" />
-    <ClCompile Include="FloatGenerator.cpp" />
     <ClCompile Include="WorldManager.cpp" />
+    <ClCompile Include="RotationGenerator.cpp" />
+    <ClCompile Include="SpringForcegenerator.cpp">
+      <Filter>Muelles</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatGenerator.cpp">
+      <Filter>Muelles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -120,10 +125,15 @@
     <ClInclude Include="Explosion.h">
       <Filter>ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="SpringForcegenerator.h" />
-    <ClInclude Include="FloatGenerator.h" />
     <ClInclude Include="WorldManager.h" />
     <ClInclude Include="RigidBodyForceRegistry.h" />
+    <ClInclude Include="RotationGenerator.h" />
+    <ClInclude Include="SpringForcegenerator.h">
+      <Filter>Muelles</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatGenerator.h">
+      <Filter>Muelles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

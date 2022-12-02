@@ -4,6 +4,7 @@
 #include "RenderUtils.hpp"
 #include "RigidBodyForceRegistry.h"
 #include "Explosion.h"
+#include "RotationGenerator.h"
 
 using namespace physx;
 
@@ -32,5 +33,6 @@ protected:
 	Vector3 iniSize = { 1,1,1 };
 
 	Explosion* explosion;
+	RotationGenerator* rotation;
 };
 

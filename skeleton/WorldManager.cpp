@@ -6,6 +6,7 @@ WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
 {
 	forceRegistry = new RigidBodyForceRegistry();
 	explosion = new Explosion(500, 40, { 0, -1, 0 });
+	rotation = new RotationGenerator(10, 100, { 0,0,0 });
 }
 
 WorldManager::~WorldManager()
@@ -24,6 +25,9 @@ void WorldManager::InputActions(char c)
 		break;
 	case 'l':
 		explosion->change();
+		break;
+	case 'm':
+		rotation->change();
 		break;
 	default:
 		break;
@@ -76,9 +80,9 @@ void WorldManager::generateDynamicCube()
 	std::uniform_real_distribution<double> v(0, 10);
 	
 
-	double pR = pos(rnd);
+	
 	double sR = s(rnd);
-	Vector3 p = iniPos + Vector3(pR, 0, pR);
+	Vector3 p = iniPos + Vector3(pos(rnd), 0, pos(rnd));
 	Vector3 vel = iniVel + Vector3(0, 0, 0);// Vector3(v(rnd), v(rnd), v(rnd));
 	Vector3 size = iniSize + Vector3(sR, sR, sR);
 
@@ -92,6 +96,7 @@ void WorldManager::generateDynamicCube()
 	gScene->addActor(*new_solid);
 
 	forceRegistry->addRegistry(explosion, new_solid);
+	forceRegistry->addRegistry(rotation, new_solid);
 }
 
 void WorldManager::update(double t)
