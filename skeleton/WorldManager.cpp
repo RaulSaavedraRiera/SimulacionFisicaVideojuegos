@@ -5,7 +5,7 @@
 WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
 {
 	forceRegistry = new RigidBodyForceRegistry();
-	explosion = new Explosion(100, 100, { 0, -1, 0 });
+	explosion = new Explosion(500, 40, { 0, -1, 0 });
 }
 
 WorldManager::~WorldManager()
@@ -71,7 +71,7 @@ void WorldManager::generateStaticRoom()
 void WorldManager::generateDynamicCube()
 {
 	std::default_random_engine rnd{ std::random_device{}() };
-	std::uniform_real_distribution<double> pos(-10, 10);
+	std::uniform_real_distribution<double> pos(-15, 15);
 	std::uniform_real_distribution<double> s(-0.5, 0.5);
 	std::uniform_real_distribution<double> v(0, 10);
 	
@@ -79,7 +79,7 @@ void WorldManager::generateDynamicCube()
 	double pR = pos(rnd);
 	double sR = s(rnd);
 	Vector3 p = iniPos + Vector3(pR, 0, pR);
-	Vector3 vel = iniVel + Vector3(v(rnd), v(rnd), v(rnd));
+	Vector3 vel = iniVel + Vector3(0, 0, 0);// Vector3(v(rnd), v(rnd), v(rnd));
 	Vector3 size = iniSize + Vector3(sR, sR, sR);
 
 	PxRigidDynamic* new_solid;
