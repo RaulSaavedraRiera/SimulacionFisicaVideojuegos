@@ -15,6 +15,8 @@
 #include "SistemaDeParticulas.h"
 #include "WorldManager.h"
 
+#include "PlayerController.h"
+
 
 using namespace physx;
 
@@ -35,15 +37,16 @@ ContactReportCallback gContactReportCallback;
 
 
 //practica 1
-CanonBall* canonBall = NULL;
-
-RenderItem* ground = NULL;
-RenderItem* diane = NULL;
+//CanonBall* canonBall = NULL;
+// //RenderItem* ground = NULL;
+//RenderItem* diane = NULL;
 
 std::vector<Particle*> particles;
 
 SistemaDeParticulas* particleSystem;
 WorldManager* worldManager;
+
+PlayerController* player;
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -77,6 +80,10 @@ void initPhysics(bool interactive)
 	particleSystem = new SistemaDeParticulas();
 	worldManager = new WorldManager(gPhysics, gScene);
 	//particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, {0,0,0}, {0, 2, 0});
+	player = new PlayerController(10, worldManager);
+
+	GetCamera()->setOffset(GetCamera()->getEye() - player->getPlayerPos());
+	GetCamera()->changeMove();
 }
 
 
@@ -97,6 +104,8 @@ void stepPhysics(bool interactive, double t)
 
 	particleSystem->Update(t);
 	worldManager->update(t);
+
+	GetCamera()->setEye(player->getPlayerPos() + GetCamera()->getOffset());
 }
 
 // Function to clean data
@@ -115,10 +124,6 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 
 	gFoundation->release();
-
-
-	delete canonBall;
-	canonBall = nullptr;
 
 }
 
@@ -224,6 +229,14 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'M':
 		worldManager->InputActions(tolower(key));
 		break;
+			
+	case 'W':
+	case 'A':
+	case 'S':
+	case 'D':
+		player->addForce(tolower(key));
+		break;
+
 	default:
 		particleSystem->ControlForceGenerators(tolower(key));
 		break;

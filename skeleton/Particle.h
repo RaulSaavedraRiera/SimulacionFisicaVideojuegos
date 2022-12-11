@@ -54,5 +54,7 @@ protected:
 
 
 	bool implicit;
+
+	const float yMin = -10, yMax = 50;
 };
 

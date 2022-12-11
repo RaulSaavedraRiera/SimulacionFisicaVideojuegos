@@ -34,7 +34,8 @@ bool Particle::integrate(double t)
 {
 	timePass += t;
 
-	if (timePass > timeDestroy)
+	//limitamos particula en y
+	if (timePass > timeDestroy || pos.p.y < yMin || pos.p.y > yMax)
 		return false;
 
 	if (inverseMass <= 0.0f)

@@ -46,13 +46,20 @@ public:
 	void				handleAnalogMove(float x, float y);
 
 	physx::PxVec3		getEye()	const;
+	void				setEye(physx::PxVec3 v);
+	physx::PxVec3		getOffset()	const { return offset; };
+	void				setOffset(physx::PxVec3 v) { offset = v; };
 	physx::PxVec3		getDir()	const;
 	physx::PxTransform	getTransform() const;
+
+	void changeMove() { canMove = !canMove; };
 private:
 	physx::PxVec3	mEye;
+	physx::PxVec3	offset;
 	physx::PxVec3	mDir;
 	int				mMouseX;
 	int				mMouseY;
+	bool canMove = true;
 };
 
 

@@ -21,6 +21,8 @@ public:
 	void generateDynamicCube();
 	void update(double t);
 
+	PxRigidDynamic* instanciatePlayer(Vector3 p, float size_);
+
 
 protected:
 	RigidBodyForceRegistry* forceRegistry;
@@ -34,5 +36,8 @@ protected:
 
 	Explosion* explosion;
 	RotationGenerator* rotation;
+
+	PxRigidDynamic* player;
+
 };
 

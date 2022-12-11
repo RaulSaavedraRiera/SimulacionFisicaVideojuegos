@@ -44,7 +44,7 @@ void WorldManager::generateStaticRoom()
 	gScene->addActor(*Suelo);
 	// Add wall
 
-	PxRigidStatic* ParedB; PxShape* shape_pared;
+	/*PxRigidStatic* ParedB; PxShape* shape_pared;
 
 	ParedB = gPhyscis->createRigidStatic(PxTransform({ 0, 10, 19.5 }));
 	shape_pared = CreateShape(PxBoxGeometry(20, 10, 1));
@@ -68,7 +68,7 @@ void WorldManager::generateStaticRoom()
 	shape_pared = CreateShape(PxBoxGeometry(1, 10, 20));
 	ParedB->attachShape(*shape_pared);
 	new RenderItem(shape_pared, ParedB, { 0.8, 0.8, 0.8, 1 });
-	gScene->addActor(*ParedB);
+	gScene->addActor(*ParedB);*/
 
 }
 
@@ -103,4 +103,21 @@ void WorldManager::update(double t)
 {
 	forceRegistry->updateForces(t);
 	explosion->updateValues(t);
+}
+
+PxRigidDynamic* WorldManager::instanciatePlayer(Vector3 p, float size_)
+{
+	player = gPhyscis->createRigidDynamic(PxTransform(p));
+	auto shape = CreateShape(PxSphereGeometry(size_)); 
+	player->attachShape(*shape);
+
+	//esto no se si ira asi
+	Vector3 size = { size_, size_, size_ };
+	player->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
+
+
+	new RenderItem(shape, player, { 0,0,1,1 });
+	gScene->addActor(*player);
+
+	return player;
 }

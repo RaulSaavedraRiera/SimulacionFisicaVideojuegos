@@ -56,6 +56,10 @@ void Camera::handleMouse(int button, int state, int x, int y)
 
 bool Camera::handleKey(unsigned char key, int x, int y, float speed)
 {
+
+	if (!canMove)
+		return false;
+
 	PX_UNUSED(x);
 	PX_UNUSED(y);
 
@@ -110,6 +114,11 @@ PxTransform Camera::getTransform() const
 PxVec3 Camera::getEye() const
 { 
 	return mEye; 
+}
+
+void Camera::setEye(PxVec3 v)
+{
+	mEye = v;
 }
 
 PxVec3 Camera::getDir() const

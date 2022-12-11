@@ -58,14 +58,19 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>ForceGenerators</Filter>
     </ClCompile>
-    <ClCompile Include="WorldManager.cpp" />
-    <ClCompile Include="RotationGenerator.cpp" />
     <ClCompile Include="SpringForcegenerator.cpp">
       <Filter>Muelles</Filter>
     </ClCompile>
     <ClCompile Include="FloatGenerator.cpp">
       <Filter>Muelles</Filter>
     </ClCompile>
+    <ClCompile Include="RotationGenerator.cpp">
+      <Filter>Rigids</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldManager.cpp">
+      <Filter>Rigids</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -125,15 +130,22 @@
     <ClInclude Include="Explosion.h">
       <Filter>ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="WorldManager.h" />
-    <ClInclude Include="RigidBodyForceRegistry.h" />
-    <ClInclude Include="RotationGenerator.h" />
     <ClInclude Include="SpringForcegenerator.h">
       <Filter>Muelles</Filter>
     </ClInclude>
     <ClInclude Include="FloatGenerator.h">
       <Filter>Muelles</Filter>
     </ClInclude>
+    <ClInclude Include="RigidBodyForceRegistry.h">
+      <Filter>Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="RotationGenerator.h">
+      <Filter>Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldManager.h">
+      <Filter>Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -150,6 +162,12 @@
     </Filter>
     <Filter Include="Muelles">
       <UniqueIdentifier>{67973f60-933b-4bbd-a6a0-2a7989b5d541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rigids">
+      <UniqueIdentifier>{9b9bfc10-988f-420c-af87-205f1f13bc7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FinalProyect">
+      <UniqueIdentifier>{18ef6436-0719-43a9-863d-2058951c7930}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
