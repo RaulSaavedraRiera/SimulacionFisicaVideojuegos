@@ -5,6 +5,7 @@
 #include "RigidBodyForceRegistry.h"
 #include "Explosion.h"
 #include "RotationGenerator.h"
+#include "UniformRigidBodyGenerator.h"
 
 using namespace physx;
 
@@ -19,6 +20,7 @@ public:
 	void InputActions(char c);
 	void generateStaticRoom();
 	void generateDynamicCube();
+	void generateCubes(std::list<PxRigidDynamic*> d);
 	void update(double t);
 
 
@@ -34,5 +36,7 @@ protected:
 
 	Explosion* explosion;
 	RotationGenerator* rotation;
+
+	UniformRigidBodyGenerator* uniformRigidBodyGenerator;
 };
 

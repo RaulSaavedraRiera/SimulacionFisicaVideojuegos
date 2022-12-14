@@ -7,6 +7,9 @@ WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
 	forceRegistry = new RigidBodyForceRegistry();
 	explosion = new Explosion(500, 40, { 0, -1, 0 });
 	rotation = new RotationGenerator(10, 100, { 0,0,0 });
+
+	uniformRigidBodyGenerator = new UniformRigidBodyGenerator(this, "uniform", { 0, 20, 0 }, { 0, 0, 0 }, 0.5, 2, 10, 1, p, 0.5f, 3);
+	generateStaticRoom();
 }
 
 WorldManager::~WorldManager()
@@ -99,8 +102,20 @@ void WorldManager::generateDynamicCube()
 	forceRegistry->addRegistry(rotation, new_solid);
 }
 
+void WorldManager::generateCubes(std::list<PxRigidDynamic*> d)
+{
+	for (auto dynamic : d) {
+		gScene->addActor(*dynamic);
+		forceRegistry->addRegistry(explosion, dynamic);
+		forceRegistry->addRegistry(rotation, dynamic);
+	}
+
+	d.clear();
+}
+
 void WorldManager::update(double t)
 {
 	forceRegistry->updateForces(t);
 	explosion->updateValues(t);
+	generateCubes(uniformRigidBodyGenerator->generateBodies(t));
 }

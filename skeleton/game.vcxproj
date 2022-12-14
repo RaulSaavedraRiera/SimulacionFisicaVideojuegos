@@ -275,6 +275,7 @@
     <ClCompile Include="SistemaDeParticulas.cpp" />
     <ClCompile Include="SpringForcegenerator.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
+    <ClCompile Include="UniformRigidBodyGenerator.cpp" />
     <ClCompile Include="UniformWindGenerator.cpp" />
     <ClCompile Include="WhirlWindGenerator.cpp" />
     <ClCompile Include="WorldManager.cpp" />
@@ -303,6 +304,7 @@
     <ClInclude Include="SistemaDeParticulas.h" />
     <ClInclude Include="SpringForcegenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
+    <ClInclude Include="UniformRigidBodyGenerator.h" />
     <ClInclude Include="UniformWindGenerator.h" />
     <ClInclude Include="WhirlWindGenerator.h" />
     <ClInclude Include="WorldManager.h" />
