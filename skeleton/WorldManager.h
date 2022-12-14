@@ -7,10 +7,10 @@
 #include "Explosion.h"
 #include "RotationGenerator.h"
 #include "HorizontalForceGenerator.h"
-
 #include "UniformRigidBodyGenerator.h"
 #include "StaticRigidBodyGenerator.h"
 
+#include "SistemaDeParticulas.h"
 
 using namespace physx;
 
@@ -21,7 +21,7 @@ class WorldManager
 {
 public:
 
-	WorldManager(PxPhysics* gPhyscis, PxScene* gScene);
+	WorldManager(PxPhysics* gPhyscis, PxScene* gScene, SistemaDeParticulas* particleContr);
 	~WorldManager();
 
 
@@ -37,6 +37,7 @@ public:
 	void generateZone1();
 	void generateRotationZone(Vector3 pos);
 	void generateHorizontalWallsZone(Vector3 pos);
+	void generateCanonZone(Vector3 pos);
 
 
 	void generateFloor(Vector3 pos);
@@ -60,6 +61,7 @@ protected:
 
 	PxRigidDynamic* player;
 	PlayerController* controller;
+	SistemaDeParticulas* particleController;
 
 	const float minY = -10;
 	const float sizeZoneZ = 15, sizeZoneX = 30;

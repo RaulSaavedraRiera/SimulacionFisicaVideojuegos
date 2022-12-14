@@ -45,6 +45,8 @@ public:
 
 	void Update(double t);
 
+	void CreateParticleCanon(Vector3 p, int dir);
+
 protected:
 
 
@@ -93,5 +95,10 @@ protected:
 
 	SpringForceGenerator* spring1;
 	SpringForceGenerator* spring2;
+
+
+	//para practica final
+	Particle* cannonParticle;
+	GausianSystem cannonSystem;
 };
 

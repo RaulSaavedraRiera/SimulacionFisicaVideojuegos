@@ -42,7 +42,10 @@ list<PxRigidDynamic*> UniformRigidBodyGenerator::generateBodies(double t)
 
 			dynamics.front()->setLinearVelocity(velD);
 			dynamics.front()->setAngularVelocity({ 0,0,0 });
-			auto shape = CreateShape(PxBoxGeometry(size)); dynamics.front()->attachShape(*shape);
+			PxShape* shape;
+			rand() % 2 == 1 ? shape = CreateShape(PxBoxGeometry(size)) : shape = CreateShape(PxSphereGeometry(size.x));
+
+			dynamics.front()->attachShape(*shape);
 			dynamics.front()->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
 			new RenderItem(shape, dynamics.front(), { 0,0,1,1 });
 

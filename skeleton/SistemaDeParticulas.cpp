@@ -33,6 +33,10 @@ SistemaDeParticulas::SistemaDeParticulas()
 	//para los muelles
 	slowGravity = new GravityForceGenerator({ 0, -1, 0 });
 
+	cannonParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.5, 10, { 1, 0, 0, 1 });
+
+	cannonSystem.devTip_pos = { 1, 0, 1 }; cannonSystem.devTip_vel = { 3, 0, 6 }; cannonSystem.n_particles = 20; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
+
 }
 
 SistemaDeParticulas::~SistemaDeParticulas()
@@ -69,7 +73,7 @@ void SistemaDeParticulas::CreateParticleGenerator(TypeGenerator generator, Vecto
 	{
 	case SistemaDeParticulas::fuente:
 		generators.push_back(
-			new GaussianParticleGenerator(this, "fuente", fountainP->clone(), fuenteS.n_particles, p, v, fuenteS.devTip_pos, fuenteS.devTip_vel, fuenteS.random, fuenteS.randomPos));
+			new GaussianParticleGenerator(this, "fuente", fountainP->clone(), fuenteS.n_particles, p, v, fuenteS.devTip_pos, fuenteS.devTip_vel, fuenteS.random, fuenteS.randomPos, 0));
 		break;
 	case SistemaDeParticulas::snow:
 		generators.push_back(
@@ -420,6 +424,15 @@ void SistemaDeParticulas::Update(double t)
 
 		newP.clear();
 	}
+}
+
+
+void SistemaDeParticulas::CreateParticleCanon(Vector3 p, int dir) {
+
+	Vector3 v = { dir*7.f, 5, 0 };
+
+	generators.push_back(
+		new GaussianParticleGenerator(this, "cannon", cannonParticle->clone(), cannonSystem.n_particles, p, v, cannonSystem.devTip_pos, cannonSystem.devTip_vel, cannonSystem.random, cannonSystem.randomPos, 2));
 }
 
 

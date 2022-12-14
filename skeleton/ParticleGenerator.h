@@ -14,7 +14,7 @@ public:
 
 	string name;
 
-	ParticleGenerator(SistemaDeParticulas* s, string name, Particle* p, int n, Vector3 pos, Vector3 vel, double rnd = 1, double rndPos = 1);
+	ParticleGenerator(SistemaDeParticulas* s, string name, Particle* p, int n, Vector3 pos, Vector3 vel, double rnd = 1, double rndPos = 1, double timeG = 0);
 	~ParticleGenerator();
 
 	

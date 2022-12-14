@@ -78,7 +78,7 @@ void initPhysics(bool interactive)
 	//canonBall = new CanonBall({ 20, 30, 0 }, 50, 5, { 0, -0.2, 0 }, 0.999, 200);
 
 	particleSystem = new SistemaDeParticulas();
-	worldManager = new WorldManager(gPhysics, gScene);
+	worldManager = new WorldManager(gPhysics, gScene, particleSystem);
 	//particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, {0,0,0}, {0, 2, 0});
 	player = new PlayerController(10, worldManager);
 

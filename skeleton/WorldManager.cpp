@@ -3,15 +3,19 @@
 #include "PlayerController.h"
 
 using namespace std;
-WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
+WorldManager::WorldManager(PxPhysics* p, PxScene* s, SistemaDeParticulas* particleContr) : gPhyscis(p), gScene(s), particleController(particleContr)
 {
 	generators = list<RigidBodyforceGenerator*>();
 	rigids = list<PxRigidDynamic*>();
 
 	forceRegistry = new RigidBodyForceRegistry();
 
+	srand(time(NULL));
+
 	//generateRotationZone({ 0, 0, 0 });
-	generateHorizontalWallsZone({ 0,0,5 });
+	//generateHorizontalWallsZone({ 0,0,5 });
+
+	generateCanonZone({ 0, 0, 0 });
 }
 
 WorldManager::~WorldManager()
@@ -180,6 +184,20 @@ void WorldManager::generateHorizontalWallsZone(Vector3 pos)
 	else
 		generators.push_back(new StaticRigidBodyGenerator(this, forces, "walls", { pos.x + 10, pos.y + 3, pos.z }, 2, 0.5, gPhyscis, 1));
 
+}
+
+void WorldManager::generateCanonZone(Vector3 pos)
+{
+	generateFloor(pos);
+
+
+	int dir;
+	if (rand() % 2 == 1)
+		dir = 1;
+	else
+		dir = -1;
+
+	particleController->CreateParticleCanon(pos + Vector3(-dir * 30, 0, -10), dir);
 }
 
 void WorldManager::generateRigids(std::list<PxRigidDynamic*> d, std::list<ForceGenerator*> generatorsAttached) {

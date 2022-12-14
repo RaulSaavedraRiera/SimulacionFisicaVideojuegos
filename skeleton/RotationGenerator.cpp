@@ -21,5 +21,6 @@ void RotationGenerator::updateForceRigids(physx::PxRigidDynamic* rigidBody, doub
 	if (r2 > R*R)
 		return;
 	
+	//puedes añadirle otro vector que mire para el centro y asi nucna se alejen si no que se vayan dando la vuelta
 	rigidBody->addTorque(Vector3(difX,difY, difZ) * k);
 }
