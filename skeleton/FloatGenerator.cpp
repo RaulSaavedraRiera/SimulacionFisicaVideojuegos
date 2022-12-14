@@ -42,3 +42,28 @@ void FloatGenerator::updateForce(Particle* p, double t)
     p->addForce(f);
 
 }
+
+void FloatGenerator::updateForceRigids(physx::PxRigidDynamic* rigid, double duration)
+{
+    float h = rigid->getGlobalPose().p.y;
+    float h0 = _liquid_particle->getPos().y;
+
+    Vector3 f(0, 0, 0);
+    float immersed = 0.0;
+
+    if (h - h0 > _height * 0.5)
+    {
+        immersed = 0.0;
+    }
+    else if (h0 - h > _height * 0.5) {
+        immersed = 1.0;
+    }
+    else
+    {
+        immersed = (h0 - h) / _height + 0.5;
+    }
+
+    f.y = _liquid_density * _volume * immersed * 9.8;
+
+    rigid->addForce(f);
+}

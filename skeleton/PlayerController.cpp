@@ -2,7 +2,7 @@
 
 PlayerController::PlayerController(float k_, WorldManager* manager) : k(k_)
 {
-	player = manager->instanciatePlayer(iniPos, size);
+	player = manager->instanciatePlayer(this, iniPos, size);
 }
 
 PlayerController::~PlayerController()
@@ -29,5 +29,12 @@ void PlayerController::addForce(char c)
 		v -= {1, 0, 0};
 		break;
 	}
-	player->addTorque(v * k*2000);
+	player->addTorque(v * k * 2000);
+}
+
+void PlayerController::resetPosition()
+{
+	player->setGlobalPose(PxTransform(iniPos));
+	player->setLinearVelocity({ 0,0,0 });
+	player->setAngularVelocity({ 0, 0, 0 });
 }

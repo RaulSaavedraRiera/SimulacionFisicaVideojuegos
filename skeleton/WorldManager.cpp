@@ -1,12 +1,16 @@
 #include "WorldManager.h"
 #include <random>
+#include "PlayerController.h"
 
-
+using namespace std;
 WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
 {
+	generators = list<ForceGenerator*>();
+	rigids = list<PxRigidDynamic*>();
+
 	forceRegistry = new RigidBodyForceRegistry();
-	explosion = new Explosion(500, 40, { 0, -1, 0 });
-	rotation = new RotationGenerator(10, 100, { 0,0,0 });
+
+	generateZone1();
 }
 
 WorldManager::~WorldManager()
@@ -24,10 +28,10 @@ void WorldManager::InputActions(char c)
 		generateDynamicCube();
 		break;
 	case 'l':
-		explosion->change();
+		//explosion->change();
 		break;
 	case 'm':
-		rotation->change();
+		//rotation->change();
 		break;
 	default:
 		break;
@@ -95,18 +99,25 @@ void WorldManager::generateDynamicCube()
 	new RenderItem(shape, new_solid, {0,0,1,1});
 	gScene->addActor(*new_solid);
 
-	forceRegistry->addRegistry(explosion, new_solid);
-	forceRegistry->addRegistry(rotation, new_solid);
+
+	
+	/*forceRegistry->addRegistry(explosion, new_solid);
+	forceRegistry->addRegistry(rotation, new_solid);*/
 }
 
 void WorldManager::update(double t)
 {
-	forceRegistry->updateForces(t);
-	explosion->updateValues(t);
+	/*forceRegistry->updateForces(t);
+	explosion->updateValues(t);*/
+
+	if (player->getGlobalPose().p.y <  minY)
+		controller->resetPosition();
 }
 
-PxRigidDynamic* WorldManager::instanciatePlayer(Vector3 p, float size_)
+PxRigidDynamic* WorldManager::instanciatePlayer(PlayerController* c, Vector3 p, float size_)
 {
+	controller = c;
+
 	player = gPhyscis->createRigidDynamic(PxTransform(p));
 	auto shape = CreateShape(PxSphereGeometry(size_)); 
 	player->attachShape(*shape);
@@ -120,4 +131,22 @@ PxRigidDynamic* WorldManager::instanciatePlayer(Vector3 p, float size_)
 	gScene->addActor(*player);
 
 	return player;
+}
+
+void WorldManager::generateZone1()
+{
+	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform({ 0, 0, 65 }));
+	PxShape* shape = CreateShape(PxBoxGeometry(30, 1, 150));
+	Suelo->attachShape(*shape);
+	new RenderItem(shape, Suelo, { 0.5, 0.5, 0.5, 1 });
+	gScene->addActor(*Suelo);
+}
+
+void WorldManager::generateRotationZone(Vector3 pos)
+{
+	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform(pos));
+	PxShape* shape = CreateShape(PxBoxGeometry(sizeZoneX, 1, sizeZoneZ));
+	Suelo->attachShape(*shape);
+	new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 });
+	gScene->addActor(*Suelo);
 }

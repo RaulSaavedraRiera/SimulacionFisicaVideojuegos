@@ -9,7 +9,7 @@ class PlayerController : public ForceGenerator
 public:
 	PlayerController(float k, WorldManager* manager);
 	~PlayerController();
-	void addForce(char c);
+	
 	void change() { enable = !enable; };
 	PxRigidDynamic* getPlayer() { return player; };
 	Vector3 getPlayerPos() { return player->getGlobalPose().p; };
@@ -17,6 +17,11 @@ public:
 
 	virtual void updateForce(Particle* particle, double t) {};
 	virtual void updateForceRigids(physx::PxRigidDynamic* particle, double t) {};
+	
+	void resetPosition();
+
+	void addForce(char c);
+
 
 protected:
 

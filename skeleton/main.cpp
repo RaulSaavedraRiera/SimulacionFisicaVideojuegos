@@ -236,7 +236,9 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	case 'D':
 		player->addForce(tolower(key));
 		break;
-
+	case 'B':
+		player->resetPosition();
+		break;
 	default:
 		particleSystem->ControlForceGenerators(tolower(key));
 		break;

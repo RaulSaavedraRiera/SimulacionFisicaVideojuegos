@@ -7,6 +7,7 @@ public:
 	~FloatGenerator();
 
 	virtual void updateForce(Particle* p, double t);
+	virtual void updateForceRigids(physx::PxRigidDynamic* rigid, double duration);
 
 
 protected:

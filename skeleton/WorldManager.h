@@ -1,12 +1,16 @@
 #pragma once
 #include <PxPhysics.h>
 #include <PxScene.h>
+#include <list>
 #include "RenderUtils.hpp"
 #include "RigidBodyForceRegistry.h"
 #include "Explosion.h"
 #include "RotationGenerator.h"
 
+
 using namespace physx;
+
+class PlayerController;
 
 class WorldManager
 {
@@ -21,7 +25,11 @@ public:
 	void generateDynamicCube();
 	void update(double t);
 
-	PxRigidDynamic* instanciatePlayer(Vector3 p, float size_);
+	PxRigidDynamic* instanciatePlayer(PlayerController* controller, Vector3 p, float size_);
+
+
+	void generateZone1();
+	void generateRotationZone(Vector3 pos);
 
 
 protected:
@@ -34,10 +42,16 @@ protected:
 	Vector3 iniVel = { 0,0,0 };
 	Vector3 iniSize = { 1,1,1 };
 
-	Explosion* explosion;
-	RotationGenerator* rotation;
+	std::list<ForceGenerator*> generators;
+	std::list<PxRigidDynamic*> rigids;
+	/*Explosion* explosion;
+	RotationGenerator* rotation;*/
 
 	PxRigidDynamic* player;
+	PlayerController* controller;
+
+	const float minY = -10;
+	const float sizeZoneZ = 15, sizeZoneX = 30;
 
 };
 
