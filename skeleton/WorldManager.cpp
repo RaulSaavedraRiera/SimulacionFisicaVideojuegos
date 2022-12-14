@@ -5,16 +5,19 @@
 using namespace std;
 WorldManager::WorldManager(PxPhysics* p, PxScene* s) : gPhyscis(p), gScene(s)
 {
-	generators = list<ForceGenerator*>();
+	generators = list<RigidBodyforceGenerator*>();
 	rigids = list<PxRigidDynamic*>();
 
 	forceRegistry = new RigidBodyForceRegistry();
 
-	generateZone1();
+	//generateRotationZone({ 0, 0, 0 });
+	generateHorizontalWallsZone({ 0,0,5 });
 }
 
 WorldManager::~WorldManager()
 {
+	generators.clear();
+	rigids.clear();
 }
 
 void WorldManager::InputActions(char c)
@@ -44,7 +47,7 @@ void WorldManager::generateStaticRoom()
 	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform({ 0, 0, 0 }));
 	PxShape* shape = CreateShape(PxBoxGeometry(20, 1, 20));
 	Suelo->attachShape(*shape);
-	new RenderItem(shape, Suelo, {0.8, 0.8, 0.8, 1});
+	new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 });
 	gScene->addActor(*Suelo);
 	// Add wall
 
@@ -82,9 +85,9 @@ void WorldManager::generateDynamicCube()
 	std::uniform_real_distribution<double> pos(-15, 15);
 	std::uniform_real_distribution<double> s(-0.5, 0.5);
 	std::uniform_real_distribution<double> v(0, 10);
-	
 
-	
+
+
 	double sR = s(rnd);
 	Vector3 p = iniPos + Vector3(pos(rnd), 0, pos(rnd));
 	Vector3 vel = iniVel + Vector3(0, 0, 0);// Vector3(v(rnd), v(rnd), v(rnd));
@@ -96,21 +99,24 @@ void WorldManager::generateDynamicCube()
 	new_solid->setAngularVelocity({ 0,0,0 });
 	auto shape = CreateShape(PxBoxGeometry(size)); new_solid->attachShape(*shape);
 	new_solid->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
-	new RenderItem(shape, new_solid, {0,0,1,1});
+	new RenderItem(shape, new_solid, { 0,0,1,1 });
 	gScene->addActor(*new_solid);
 
 
-	
+
 	/*forceRegistry->addRegistry(explosion, new_solid);
 	forceRegistry->addRegistry(rotation, new_solid);*/
 }
 
 void WorldManager::update(double t)
 {
-	/*forceRegistry->updateForces(t);
-	explosion->updateValues(t);*/
+	forceRegistry->updateForces(t);
+	//explosion->updateValues(t);
 
-	if (player->getGlobalPose().p.y <  minY)
+	for (auto g : generators)
+		generateRigids(g->generateBodies(t), g->getForces());
+
+	if (player->getGlobalPose().p.y < minY)
 		controller->resetPosition();
 }
 
@@ -119,7 +125,7 @@ PxRigidDynamic* WorldManager::instanciatePlayer(PlayerController* c, Vector3 p, 
 	controller = c;
 
 	player = gPhyscis->createRigidDynamic(PxTransform(p));
-	auto shape = CreateShape(PxSphereGeometry(size_)); 
+	auto shape = CreateShape(PxSphereGeometry(size_));
 	player->attachShape(*shape);
 
 	//esto no se si ira asi
@@ -142,11 +148,50 @@ void WorldManager::generateZone1()
 	gScene->addActor(*Suelo);
 }
 
-void WorldManager::generateRotationZone(Vector3 pos)
-{
+void WorldManager::generateFloor(Vector3 pos) {
 	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform(pos));
+	//random entre esto o cubo
 	PxShape* shape = CreateShape(PxBoxGeometry(sizeZoneX, 1, sizeZoneZ));
 	Suelo->attachShape(*shape);
 	new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 });
 	gScene->addActor(*Suelo);
+}
+
+void WorldManager::generateRotationZone(Vector3 pos)
+{
+	generateFloor(pos);
+
+	list<ForceGenerator*> forces = list<ForceGenerator*>();
+	forces.push_back(new RotationGenerator(10, 30, pos));
+	generators.push_back(new UniformRigidBodyGenerator(this, forces, "rotation", { pos.x, pos.y + 10, pos.z }, { 0, 0, 0 }, 0.5, 1, 15, 1, gPhyscis, 0.3, 1));
+
+}
+
+void WorldManager::generateHorizontalWallsZone(Vector3 pos)
+{
+	generateFloor(pos);
+
+	list<ForceGenerator*> forces = list<ForceGenerator*>();
+	int dir = rand() % 2;
+	forces.push_back(new HorizontalForceGenerator(15, 7, dir == 1));
+
+	if (dir == 1)
+		generators.push_back(new StaticRigidBodyGenerator(this, forces, "walls", { pos.x - 10, pos.y + 3, pos.z }, 2, 0.5, gPhyscis, 1));
+	else
+		generators.push_back(new StaticRigidBodyGenerator(this, forces, "walls", { pos.x + 10, pos.y + 3, pos.z }, 2, 0.5, gPhyscis, 1));
+
+}
+
+void WorldManager::generateRigids(std::list<PxRigidDynamic*> d, std::list<ForceGenerator*> generatorsAttached) {
+
+	for (auto dynamic : d) {
+
+		gScene->addActor(*dynamic);
+		for (auto g : generatorsAttached)
+			forceRegistry->addRegistry(g, dynamic);
+	}
+	
+		
+	generatorsAttached.clear();
+	d.clear();
 }

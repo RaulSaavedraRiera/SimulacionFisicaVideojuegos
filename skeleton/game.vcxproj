@@ -263,6 +263,7 @@
     <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="GaussianParticleGenerator.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
+    <ClCompile Include="HorizontalForceGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleForceRegistry.cpp" />
@@ -275,7 +276,9 @@
     <ClCompile Include="RotationGenerator.cpp" />
     <ClCompile Include="SistemaDeParticulas.cpp" />
     <ClCompile Include="SpringForcegenerator.cpp" />
+    <ClCompile Include="StaticRigidBodyGenerator.cpp" />
     <ClCompile Include="UniformParticleGenerator.cpp" />
+    <ClCompile Include="UniformRigidBodyGenerator.cpp" />
     <ClCompile Include="UniformWindGenerator.cpp" />
     <ClCompile Include="WhirlWindGenerator.cpp" />
     <ClCompile Include="WorldManager.cpp" />
@@ -292,6 +295,7 @@
     <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="GaussianParticleGenerator.h" />
     <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="HorizontalForceGenerator.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleForceRegistry.h" />
     <ClInclude Include="ParticleGenerator.h" />
@@ -300,11 +304,14 @@
     <ClInclude Include="RenderUtils.hpp" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="RigidBodyforceGenerator.h" />
     <ClInclude Include="RigidBodyForceRegistry.h" />
     <ClInclude Include="RotationGenerator.h" />
     <ClInclude Include="SistemaDeParticulas.h" />
     <ClInclude Include="SpringForcegenerator.h" />
+    <ClInclude Include="StaticRigidBodyGenerator.h" />
     <ClInclude Include="UniformParticleGenerator.h" />
+    <ClInclude Include="UniformRigidBodyGenerator.h" />
     <ClInclude Include="UniformWindGenerator.h" />
     <ClInclude Include="WhirlWindGenerator.h" />
     <ClInclude Include="WorldManager.h" />

@@ -6,11 +6,16 @@
 #include "RigidBodyForceRegistry.h"
 #include "Explosion.h"
 #include "RotationGenerator.h"
+#include "HorizontalForceGenerator.h"
+
+#include "UniformRigidBodyGenerator.h"
+#include "StaticRigidBodyGenerator.h"
 
 
 using namespace physx;
 
 class PlayerController;
+class UniformRigidBodygenerator;
 
 class WorldManager
 {
@@ -24,12 +29,18 @@ public:
 	void generateStaticRoom();
 	void generateDynamicCube();
 	void update(double t);
+	void generateRigids(std::list<PxRigidDynamic*> d, std::list<ForceGenerator*> generatorsAttached);
 
 	PxRigidDynamic* instanciatePlayer(PlayerController* controller, Vector3 p, float size_);
 
-
+	
 	void generateZone1();
 	void generateRotationZone(Vector3 pos);
+	void generateHorizontalWallsZone(Vector3 pos);
+
+
+	void generateFloor(Vector3 pos);
+
 
 
 protected:
@@ -42,7 +53,7 @@ protected:
 	Vector3 iniVel = { 0,0,0 };
 	Vector3 iniSize = { 1,1,1 };
 
-	std::list<ForceGenerator*> generators;
+	std::list<RigidBodyforceGenerator*> generators;
 	std::list<PxRigidDynamic*> rigids;
 	/*Explosion* explosion;
 	RotationGenerator* rotation;*/

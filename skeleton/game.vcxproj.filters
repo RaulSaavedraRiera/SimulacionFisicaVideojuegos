@@ -71,6 +71,11 @@
       <Filter>Rigids</Filter>
     </ClCompile>
     <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="UniformRigidBodyGenerator.cpp" />
+    <ClCompile Include="HorizontalForceGenerator.cpp">
+      <Filter>Rigids</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticRigidBodyGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -146,6 +151,12 @@
       <Filter>Rigids</Filter>
     </ClInclude>
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="UniformRigidBodyGenerator.h" />
+    <ClInclude Include="HorizontalForceGenerator.h">
+      <Filter>Rigids</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticRigidBodyGenerator.h" />
+    <ClInclude Include="RigidBodyforceGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">

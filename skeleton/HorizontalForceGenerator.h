@@ -1,11 +1,11 @@
 #pragma once
 #include "ForceGenerator.h"
-class RotationGenerator :
+class HorizontalForceGenerator :
     public ForceGenerator
 {
 public:
-    RotationGenerator(double k, double R, Vector3 p);
-    ~RotationGenerator() = default;
+    HorizontalForceGenerator(double k, double t, double positiveIni);
+    ~HorizontalForceGenerator() = default;
 
     virtual void updateForce(Particle* particle, double t) {};
     virtual void updateForceRigids(physx::PxRigidDynamic* particle, double t);
@@ -13,9 +13,10 @@ public:
     void change() { enable = !enable; };
 
 protected:
-    
-    double k, R;
-    Vector3 point;
 
+    double k, time;
+    double lastChange, currentTime;
+
+    bool left = false;
 };
 

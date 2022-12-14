@@ -15,7 +15,7 @@ class Explosion :  public ForceGenerator
 
 protected:
 
-	bool enable = false;
+	
 
 	double k, R, w;
 	Vector3 point;
