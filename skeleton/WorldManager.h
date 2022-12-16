@@ -51,6 +51,7 @@ public:
 
 protected:
 	RigidBodyForceRegistry* forceRegistry;
+	list<RenderItem*> renders;
 
 	PxPhysics* gPhyscis;
 	PxScene* gScene;

@@ -495,7 +495,7 @@ void SistemaDeParticulas::CreateWaterZone(Vector3 pos, physx::PxRigidDynamic* pl
 	forces->addRegistry(floatG, player);
 
 	std::default_random_engine rnd{ std::random_device{}() };
-	std::uniform_real_distribution<double> sizeMass(1, 1.5);
+	std::uniform_real_distribution<double> sizeMass(0.5, 1);
 	std::uniform_real_distribution<float> posZ(-10, 10);
 	std::uniform_real_distribution<float> posX(-20, 20);
 
@@ -503,7 +503,8 @@ void SistemaDeParticulas::CreateWaterZone(Vector3 pos, physx::PxRigidDynamic* pl
 	for (auto i = 0; i < waterParticlesN; i++)
 	{
 		double sM = sizeMass(rnd);
-		Particle* p = new Particle({ posX(rnd) + pos.x, pos.y + 10, pos.z + posZ(rnd) }, { 0, 0, 0 }, sM, 99999, { 1, 0, (float)(1 / sM), 1 }, { 0, 0 , 0 }, 0.35, 20, sM * 15);
+		Particle* p = new Particle({ posX(rnd) + pos.x, pos.y + 10, pos.z + posZ(rnd) }, { 0, 0, 0 }, sM, 99999, { 1, 0, (float)(1 / sM), 1 }, { 0, 0 , 0 }, 0.35, 20, sM * 15, true, true);
+		p->setVolume(sM * sM * sM);
 		particles.push_back(p);
 
 		forceRegistry->addRegistry(floatG, p);
@@ -551,7 +552,7 @@ bool SistemaDeParticulas::CheckParticlePlayerCollision(PlayerController* player)
 
 	while (i != particles.end()) {
 
-		if (!(*i)->canColWithPlayer() && player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
+		if ((*i)->canColWithPlayer() && player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
 			return true;
 
 		i++;

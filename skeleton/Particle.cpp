@@ -2,7 +2,7 @@
 #include <math.h>
 using namespace physx;
 
-Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 c, Vector3 acc_, float damping_, double m, bool i, bool colPlayer) : pos(pos_), vel(vel_), timeDestroy(tDestroy), size(size_), color(c), mass(m), implicit(i), colWithPlayer(colPlayer)
+Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 c, Vector3 acc_, float damping_, double m, bool i, bool colPlayer, bool forceSquareGeometry) : pos(pos_), vel(vel_), timeDestroy(tDestroy), size(size_), color(c), mass(m), implicit(i), colWithPlayer(colPlayer)
 {
 	acc = acc_;
 	damping = damping_;
@@ -11,7 +11,10 @@ Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vec
 
 	inverseMass = 1 / mass;
 
-	render = new RenderItem(CreateShape(PxSphereGeometry(size)), &pos, color);
+	if (!forceSquareGeometry)
+		render = new RenderItem(CreateShape(PxSphereGeometry(size)), &pos, color);
+	else
+		render = new RenderItem(CreateShape(PxBoxGeometry(size, size, size)), &pos, color);
 }
 
 Particle::Particle(Vector3 pos_, double size_, Vector4 color_, bool colP) : pos(pos_), size(size_), color(color_), colWithPlayer(colP)
@@ -21,7 +24,7 @@ Particle::Particle(Vector3 pos_, double size_, Vector4 color_, bool colP) : pos(
 
 Particle::Particle(Vector3 pos_, double sizeXZ, bool colP) : pos(pos_), size(sizeXZ), colWithPlayer(colP)
 {
-	render = new RenderItem(CreateShape(PxBoxGeometry(sizeXZ, 1, sizeXZ)), &pos, {0,0,1,0});
+	render = new RenderItem(CreateShape(PxBoxGeometry(sizeXZ, 1, sizeXZ)), &pos, { 0,0,1,0 });
 }
 
 Particle::Particle(Vector3 pos_, Vector3 size_, Vector4 color_, bool colP) : pos(pos_), size(size_.x), colWithPlayer(colP)
@@ -46,7 +49,7 @@ bool Particle::integrate(double t)
 	if (inverseMass <= 0.0f)
 		return true;
 
-	if(implicit)
+	if (implicit)
 		pos.p += vel * t;
 
 	Vector3 accTotal = { 0,0,0 }; accTotal = acc;
@@ -54,7 +57,7 @@ bool Particle::integrate(double t)
 	vel += accTotal * t;
 	vel *= powf(damping, t);
 
-	if(!implicit)
+	if (!implicit)
 		pos.p += vel * t;
 
 	clearForce();

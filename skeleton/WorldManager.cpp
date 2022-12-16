@@ -15,6 +15,12 @@ WorldManager::~WorldManager()
 {
 	generators.clear();
 	rigids.clear();
+
+	for (auto r : renders)
+	{
+		DeregisterRenderItem(r);
+		delete r;
+	}
 }
 
 
@@ -39,43 +45,43 @@ void WorldManager::generateLevel() {
 
 
 	generateFloor({ 0,0, value * 11 });
-	generateBouncyZone({ 0, 0, value });
-	//generateDragZone({0, 0, value*2});
+	//generateBouncyZone({ 0, 0, value });
+	generateWaterZone({0, 0, value});
 
 
-	for (int i = 0; i < 10; i++)
-	{
+	//for (int i = 0; i < 10; i++)
+	//{
 
-		if (i % 2 == 0) {
-			switch (rand() % 6)
-			{
-			case 0:
-				generateRotationZone({ 0, 0, currentV });
-				break;
-			case 1:
-				generateHorizontalWallsZone({ 0,0, currentV });
-				break;
-			case 2:
-				generateCanonZone({ 0, 0, currentV });
-				break;
-			case 3:
-				generateDragZone({ 0, 0, currentV });
-				break;
-			case 4:
-				generateWaterZone({ 0, 0, currentV });
-				break;
+	//	if (i % 2 == 0) {
+	//		switch (rand() % 6)
+	//		{
+	//		case 0:
+	//			generateRotationZone({ 0, 0, currentV });
+	//			break;
+	//		case 1:
+	//			generateHorizontalWallsZone({ 0,0, currentV });
+	//			break;
+	//		case 2:
+	//			generateCanonZone({ 0, 0, currentV });
+	//			break;
+	//		case 3:
+	//			generateDragZone({ 0, 0, currentV });
+	//			break;
+	//		case 4:
+	//			generateWaterZone({ 0, 0, currentV });
+	//			break;
 
-			}
-		}
-		else
-		{
-			generateHorizontalWallsZone({ 0,0, currentV });
+	//		}
+	//	}
+	//	else
+	//	{
+	//		generateHorizontalWallsZone({ 0,0, currentV });
 
-		}
+	//	}
 
 
-		currentV += value;
-	}
+	//	currentV += value;
+	//}
 
 
 }
@@ -107,7 +113,7 @@ void WorldManager::generateStaticRoom()
 	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform({ 0, 0, 0 }));
 	PxShape* shape = CreateShape(PxBoxGeometry(20, 1, 20));
 	Suelo->attachShape(*shape);
-	new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 });
+	renders.push_back(new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 }));
 	gScene->addActor(*Suelo);
 	// Add wall
 
@@ -159,7 +165,7 @@ void WorldManager::generateDynamicCube()
 	new_solid->setAngularVelocity({ 0,0,0 });
 	auto shape = CreateShape(PxBoxGeometry(size)); new_solid->attachShape(*shape);
 	new_solid->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
-	new RenderItem(shape, new_solid, { 0,0,1,1 });
+	renders.push_back(new RenderItem(shape, new_solid, { 0,0,1,1 }));
 	gScene->addActor(*new_solid);
 
 
@@ -206,7 +212,7 @@ PxRigidDynamic* WorldManager::instanciatePlayer(PlayerController* c, Vector3 p, 
 	player->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
 
 
-	new RenderItem(shape, player, { 0,0,1,1 });
+	renders.push_back(new RenderItem(shape, player, { 0,0,1,1 }));
 	gScene->addActor(*player);
 
 	return player;
@@ -217,7 +223,7 @@ void WorldManager::generateZone1()
 	PxRigidStatic* Suelo = gPhyscis->createRigidStatic(PxTransform({ 0, 0, 65 }));
 	PxShape* shape = CreateShape(PxBoxGeometry(30, 1, 150));
 	Suelo->attachShape(*shape);
-	new RenderItem(shape, Suelo, { 0.5, 0.5, 0.5, 1 });
+	renders.push_back(new RenderItem(shape, Suelo, { 0.5, 0.5, 0.5, 1 }));
 	gScene->addActor(*Suelo);
 }
 
@@ -226,7 +232,7 @@ void WorldManager::generateFloor(Vector3 pos) {
 	//random entre esto o cubo
 	PxShape* shape = CreateShape(PxBoxGeometry(sizeZoneX, 1, sizeZoneZ));
 	Suelo->attachShape(*shape);
-	new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 });
+	renders.push_back(new RenderItem(shape, Suelo, { 0.8, 0.8, 0.8, 1 }));
 	gScene->addActor(*Suelo);
 }
 
