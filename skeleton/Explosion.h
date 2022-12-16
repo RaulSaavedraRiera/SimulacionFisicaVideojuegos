@@ -11,7 +11,7 @@ class Explosion :  public ForceGenerator
 
 	void updateValues(double t);
 
-	void change() { enable = !enable; };
+	void change() { enabled = !enabled; };
 
 protected:
 

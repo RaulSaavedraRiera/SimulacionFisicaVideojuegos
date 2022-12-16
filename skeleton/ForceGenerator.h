@@ -15,5 +15,5 @@ public:
     virtual void updateForceRigids(physx::PxRigidDynamic* particle, double duration) {};
     std::string _name;
     double t = -1e10;
-    bool enable = true;
+    bool enabled = true;
 };

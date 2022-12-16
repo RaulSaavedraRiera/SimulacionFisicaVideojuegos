@@ -33,11 +33,16 @@ public:
 
 	PxRigidDynamic* instanciatePlayer(PlayerController* controller, Vector3 p, float size_);
 
+	void generateLevel();
 	
 	void generateZone1();
 	void generateRotationZone(Vector3 pos);
 	void generateHorizontalWallsZone(Vector3 pos);
 	void generateCanonZone(Vector3 pos);
+	void generateDragZone(Vector3 pos);
+	void generateWaterZone(Vector3 pos);
+	void generateBouncyZone(Vector3 pos);
+
 
 
 	void generateFloor(Vector3 pos);
@@ -64,7 +69,10 @@ protected:
 	SistemaDeParticulas* particleController;
 
 	const float minY = -10;
-	const float sizeZoneZ = 15, sizeZoneX = 30;
+	const float sizeZoneZ = 550, sizeZoneX = 30;
+	float winZ;
+
+	bool win = false;
 
 };
 

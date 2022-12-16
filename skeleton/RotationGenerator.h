@@ -10,7 +10,7 @@ public:
     virtual void updateForce(Particle* particle, double t) {};
     virtual void updateForceRigids(physx::PxRigidDynamic* particle, double t);
 
-    void change() { enable = !enable; };
+    void change() { enabled = !enabled; };
 
 protected:
     

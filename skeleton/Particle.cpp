@@ -24,6 +24,10 @@ Particle::Particle(Vector3 pos_, double sizeXZ) : pos(pos_), size(sizeXZ)
 	render = new RenderItem(CreateShape(PxBoxGeometry(sizeXZ, 1, sizeXZ)), &pos, {0,0,1,0});
 }
 
+Particle::Particle(Vector3 pos_, Vector3 size_, Vector4 color_) : pos(pos_), size(size_.x) {
+	render = new RenderItem(CreateShape(PxBoxGeometry(size_.x, size_.y, size_.z)), &pos, color_);
+}
+
 Particle::~Particle()
 {
 	DeregisterRenderItem(render);
@@ -35,7 +39,7 @@ bool Particle::integrate(double t)
 	timePass += t;
 
 	//limitamos particula en y
-	if (timePass > timeDestroy || pos.p.y < yMin || pos.p.y > yMax)
+	if (timePass > timeDestroy || pos.p.y < yMin || pos.p.y > yMax || pos.p.x < -limitX || pos.p.x > limitX)
 		return false;
 
 	if (inverseMass <= 0.0f)

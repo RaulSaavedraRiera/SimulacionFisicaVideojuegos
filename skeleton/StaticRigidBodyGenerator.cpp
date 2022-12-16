@@ -42,7 +42,7 @@ list<PxRigidDynamic*> StaticRigidBodyGenerator::generateBodies(double t)
 
 			auto shape = CreateShape(PxBoxGeometry(size)); dynamics.front()->attachShape(*shape);
 			dynamics.front()->setMassSpaceInertiaTensor({ size.y * size.z,size.x * size.z,size.x * size.y });
-			new RenderItem(shape, dynamics.front(), { 0,0,1,1 });
+			new RenderItem(shape, dynamics.front(), { 0,0,0,1 });
 		}
 		
 

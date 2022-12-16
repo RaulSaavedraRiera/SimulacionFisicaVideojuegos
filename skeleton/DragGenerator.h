@@ -25,6 +25,5 @@ protected:
 	float _k1;
 	float _k2;
 
-	bool enabled = false;
 };
 

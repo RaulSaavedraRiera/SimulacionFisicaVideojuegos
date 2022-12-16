@@ -84,6 +84,9 @@ void initPhysics(bool interactive)
 
 	GetCamera()->setOffset(GetCamera()->getEye() - player->getPlayerPos());
 	GetCamera()->changeMove();
+
+
+	worldManager->generateLevel();
 }
 
 

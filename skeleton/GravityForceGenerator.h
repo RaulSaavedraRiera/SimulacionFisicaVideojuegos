@@ -17,6 +17,4 @@ public:
 
 protected:
     Vector3 _gravity;
-
-    bool enabled = false;
 };

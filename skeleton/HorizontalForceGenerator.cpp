@@ -8,7 +8,7 @@ HorizontalForceGenerator::HorizontalForceGenerator(double k_, double t_, double 
 
 void HorizontalForceGenerator::updateForceRigids(physx::PxRigidDynamic* rigidBody, double t)
 {
-	if (!enable)
+	if (!enabled)
 		return;
 
 	currentTime += t;

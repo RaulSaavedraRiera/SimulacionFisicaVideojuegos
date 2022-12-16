@@ -1,6 +1,12 @@
 
 #include "SistemaDeParticulas.h"
 #include "FireWork.h"
+#include "core.hpp"
+#include "RenderUtils.hpp"
+#include <PxScene.h>
+#include "RigidBodyForceRegistry.h"
+
+using namespace physx;
 
 SistemaDeParticulas::SistemaDeParticulas()
 {
@@ -8,10 +14,12 @@ SistemaDeParticulas::SistemaDeParticulas()
 	fountainP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.8, 5, { 0, 1, 1, 1 }, { 0, -2 , 0 }, 0.99);
 	snowP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.6, 5, { 1, 1, 1, 1 }, { 0, -0.5 , 0 }, 0.99);
 	laserP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
+	
 
 	fuenteS.devTip_pos = { 1, 0, 1 }; fuenteS.devTip_vel = { 3, 0, 6 }; fuenteS.n_particles = 4; fuenteS.random = 1; fuenteS.randomPos = 0.2;
 	snowS.pos_width = { 1, 0, 1 }; snowS.vel_width = { 6, 6, 6 }; snowS.n_particles = 4; snowS.random = 100; snowS.randomPos = 100;
 	laserS.pos_width = { 1, 0, 1 }; laserS.vel_width = { 0, 25, 0 }; laserS.n_particles = 25; laserS.random = 0.1; laserS.randomPos = 3;
+
 
 	gravity = new GravityForceGenerator({ 0, -9.8, 0 });
 	forces.push_back(gravity);
@@ -33,9 +41,13 @@ SistemaDeParticulas::SistemaDeParticulas()
 	//para los muelles
 	slowGravity = new GravityForceGenerator({ 0, -1, 0 });
 
-	cannonParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.5, 10, { 1, 0, 0, 1 });
+	cannonParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.5, 5, { 1, 0, 0, 1 });
+	dragParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.75, 20, { 1, 0.5, 0, 1 });
+	trailParticle = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
 
-	cannonSystem.devTip_pos = { 1, 0, 1 }; cannonSystem.devTip_vel = { 3, 0, 6 }; cannonSystem.n_particles = 20; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
+	cannonSystem.devTip_pos = { 0, 0, 0 }; cannonSystem.devTip_vel = { 10, 0, 0 }; cannonSystem.n_particles = 10; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
+	dragSystem.devTip_pos = { 1, 0, 1 }; dragSystem.devTip_vel = { 0, 0, 0 }; dragSystem.n_particles = 3; dragSystem.random = 1; dragSystem.randomPos = 4;
+	trail.pos_width = { 0, 0, 0 }; trail.vel_width = { 0, 0, 0 }; trail.n_particles = 25; trail.random = 0.1; trail.randomPos = 0.5;
 
 }
 
@@ -254,7 +266,7 @@ void SistemaDeParticulas::GenerateSpringDemo()
 
 	//para sin gravedad tienen que estar alejadas, p.x = -10 s.x = 10
 	Particle* p1 = new Particle({ 0, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
-	
+
 
 
 	//5, 10 para no gravedad
@@ -302,7 +314,7 @@ void SistemaDeParticulas::GenerateSpringSlinkyDemo()
 	Particle* p1 = new Particle({ 0, 60, 0 }, { 0, 0, 0 }, 1, 99999, { 0.8, 0, 0.2, 1 }, { 0, 0 , 0 }, damping, 2, false);
 	particles.push_back(p1);
 	Particle* p2 = new Particle({ 0, 55, 0 }, { 0, 0, 0 }, 1, 99999, { 0.5, 0, 0.5, 1 }, { 0, 0 , 0 }, damping, 2, false);
-	particles.push_back(p2);	
+	particles.push_back(p2);
 	Particle* p3 = new Particle({ 0, 50, 0 }, { 0, 0, 0 }, 1, 99999, { 0.5, 0, 0.5, 1 }, { 0, 0 , 0 }, damping, 2, false);
 	particles.push_back(p3);
 	Particle* p4 = new Particle({ 0, 45, 0 }, { 0, 0, 0 }, 1, 99999, { 0.2, 0, 0.8, 1 }, { 0, 0 , 0 }, damping, 2, false);
@@ -320,9 +332,9 @@ void SistemaDeParticulas::GenerateSpringSlinkyDemo()
 
 	forceRegistry->addRegistry(springBase, p0);
 
-	
+
 	forceRegistry->addRegistry(new SpringForceGenerator(50, lenghtValue, p0), p1);
-	
+
 	forceRegistry->addRegistry(new SpringForceGenerator(45, lenghtValue, p1), p0);
 	forceRegistry->addRegistry(new SpringForceGenerator(40, lenghtValue, p1), p2);
 
@@ -338,7 +350,7 @@ void SistemaDeParticulas::GenerateSpringSlinkyDemo()
 	forceRegistry->addRegistry(new SpringForceGenerator(10, lenghtValue, p5), p4);
 
 
-	
+
 	//SpringForceGenerator* spring;
 	////forceRegistry->addRegistry(slowGravity, p);
 	//
@@ -377,7 +389,7 @@ void SistemaDeParticulas::GenerateFloatDemo()
 	std::uniform_real_distribution<float> pos(-45, 45);
 
 	double sM = sizeMass(rnd);
-	Particle* p = new Particle({ pos(rnd), 5, pos(rnd)}, {0, 0, 0}, sM, 99999, {1, 0, (float)(1/sM), 1}, {0, 0 , 0}, 0.35, 20,sM);
+	Particle* p = new Particle({ pos(rnd), 5, pos(rnd) }, { 0, 0, 0 }, sM, 99999, { 1, 0, (float)(1 / sM), 1 }, { 0, 0 , 0 }, 0.35, 20, sM);
 	particles.push_back(p);
 
 	forceRegistry->addRegistry(floatG, p);
@@ -429,11 +441,133 @@ void SistemaDeParticulas::Update(double t)
 
 void SistemaDeParticulas::CreateParticleCanon(Vector3 p, int dir) {
 
-	Vector3 v = { dir*7.f, 5, 0 };
+	Vector3 v = { dir * 7.f, 5, 0 };
 
 	generators.push_back(
-		new GaussianParticleGenerator(this, "cannon", cannonParticle->clone(), cannonSystem.n_particles, p, v, cannonSystem.devTip_pos, cannonSystem.devTip_vel, cannonSystem.random, cannonSystem.randomPos, 2));
+		new GaussianParticleGenerator(this, "cannon", cannonParticle->clone(), cannonSystem.n_particles, p, v, cannonSystem.devTip_pos, cannonSystem.devTip_vel, cannonSystem.random, cannonSystem.randomPos, 3));
 }
+
+void SistemaDeParticulas::CreateParticlesDrag(Vector3 p, int dir)
+{
+	Vector3 v = { dir * 7.f, 5, 0 };
+
+	list<ForceGenerator*> forcesInZone = list<ForceGenerator*>();
+
+	forcesInZone.push_front(
+		new UniformWindGenerator(20, 10, p, { dir * 10.f, 0, 0 }, 30));
+	forcesInZone.front()->enabled = true;
+	forcesInZone.push_front(
+		explosion = new Explosion(10000, 20, { p.x + dir * 10, p.y, p.z - 15 }));
+	forcesInZone.front()->enabled = true;
+
+
+	auto g = new GaussianParticleGenerator(this, "dragZone", dragParticle->clone(), dragSystem.n_particles, { p.x - dir * 30, 5, p.z- 15 }, v, dragSystem.devTip_pos, dragSystem.devTip_vel, dragSystem.random, dragSystem.randomPos, 2,
+		forceRegistry, forcesInZone);
+
+	g->setXRandomPosMod(0);
+	g->setYRandomPosMod(0.5);
+	generators.push_back(g);
+
+
+}
+
+void SistemaDeParticulas::CreateWaterZone(Vector3 pos, physx::PxRigidDynamic* player, RigidBodyForceRegistry* forces) {
+
+
+
+	floatG = new FloatGenerator(pos, { 30, 1, 24 }, 1, 1000);
+
+	hardGravity = new GravityForceGenerator({ 0, -9.8, 0 });
+	hardGravity->enabled = true;
+
+
+	forces->addRegistry(floatG, player);
+
+	std::default_random_engine rnd{ std::random_device{}() };
+	std::uniform_real_distribution<double> sizeMass(1, 1.5);
+	std::uniform_real_distribution<float> posZ(-10, 10);
+	std::uniform_real_distribution<float> posX(-20, 20);
+
+
+	for (auto i = 0; i < waterParticlesN; i++)
+	{
+		double sM = sizeMass(rnd);
+		Particle* p = new Particle({ posX(rnd) + pos.x, pos.y + 10, pos.z + posZ(rnd) }, { 0, 0, 0 }, sM, 99999, { 1, 0, (float)(1 / sM), 1 }, { 0, 0 , 0 }, 0.35, 20, sM * 15);
+		particles.push_back(p);
+
+		forceRegistry->addRegistry(floatG, p);
+		forceRegistry->addRegistry(hardGravity, p);
+	}
+
+}
+
+//muelles siempre al principio pq se van parando, poner 1 al priniipio
+void SistemaDeParticulas::CreateBouncyZone(Vector3 p) {
+
+	Particle* p1;
+
+	p1 = new Particle({ p.x - 15, p.y+2, p.z-10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	springIdle = new SpringForceGenerator(5, 10, { p.x + 15, p.y + 2, p.z - 10 });
+	forceRegistry->addRegistry(springIdle, p1);
+	particles.push_back(p1);
+
+	p1 = new Particle({ p.x + 15, p.y + 2, p.z }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	springIdle = new SpringForceGenerator(5, 10, { p.x - 15, p.y + 2, p.z});
+	forceRegistry->addRegistry(springIdle, p1);
+	particles.push_back(p1);
+
+	p1 = new Particle({ p.x - 15, p.y + 2, p.z + 10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	springIdle = new SpringForceGenerator(5, 10, { p.x + 15, p.y + 2, p.z + 10 });
+	forceRegistry->addRegistry(springIdle, p1);
+	particles.push_back(p1);
+
+}
+
+void SistemaDeParticulas::ActualicePlayerTrail(Vector3 pos){
+
+	if (trailPlayer == nullptr) {
+		trailPlayer = new UniformParticleGenerator(this, "trail", trailParticle->clone(), trail.n_particles, pos, { 0,0,0 }, trail.pos_width, trail.vel_width, trail.random, trail.randomPos);
+		generators.push_back(trailPlayer);
+	}
+		
+
+	trailPlayer->ChangePos(pos);
+}
+
+void SistemaDeParticulas::LaunchFireWorksWin(int zVal) {
+
+	shared_ptr<CircleParticleGenerator> gen1(new CircleParticleGenerator(this, "fireWork1",
+		new Particle({ 0,0,0 }, { 0,0,0 }, 0.5, 3), 10, { 0,0,0 }, { 0, 0, 0 }));
+
+	shared_ptr<CircleParticleGenerator> gen2(new CircleParticleGenerator(this, "fireWork2",
+		new Particle({ 0,0,0 }, { 0,0,0 }, 0.5, 0.2, { 0,1,0,1 }, { 0,-0.02,0 }), 40, { 0,0,0 }, { 0, 0, 0 }, 0.2, 3));
+
+
+	shared_ptr<CircleParticleGenerator> gen4(new CircleParticleGenerator(this, "fireWork4",
+		new Particle({ 0,0,0 }, { 0,0,0 }, 0.3, 1, { 0,1,0,1 }, { 0,-0.3,0 }), 10, { 0,0,0 }, { 0, 0, 0 }));
+
+
+	shared_ptr<CircleParticleGenerator> gen3(new CircleParticleGenerator(this, "fireWork3",
+		new FireWork({ 0,0,0 }, { 0, 10, 0 }, 0.6, 3, { gen4 }, { 1, 0, 0, 1 }), 40, { 0,0,0 }, { 0, 0, 0 }, 4, 1));
+
+
+	shared_ptr<CircleParticleGenerator> gen5(new CircleParticleGenerator(this, "fireWork5",
+		new FireWork({ 0,0,0 }, { 0, 20, 0 }, 0.5, 1, { gen3 }, { 1, 0.5, 0, 1 }), 10, { 0,0,0 }, { 0, 0, 0 }, 0.2, 3));
+
+	shared_ptr<UniformParticleGenerator> gen7(new UniformParticleGenerator(this, "fireWork7", new Particle({ 0,0,0 }, { 0,0,0 }, 0.3, 0.65),
+		6, { 0, 0, 0 }, { 0, 0, 0 }, { 0,0,0 }, { 0, -2.5, 0 }, 10, 0.1));
+
+	shared_ptr<UniformParticleGenerator> gen6(new UniformParticleGenerator(this, "fireWork6",
+		new FireWork({ 0,0,0 }, { 0, 20, 0 }, 0.5, 1.25, { gen7 }, { 1, 0.5, 0, 1 }),
+		10, { 0,0,0 }, { 0, 0, 0 }, { 0,0,0 }, { 0, 0, 0 }, 10, 0.1));
+
+	particles.push_back(new FireWork({ -20,0, zVal + 5.f}, { 0, 40, 0 }, 1, 1, { gen3, gen1 }, { 0.5, 1, 1, 1 }));
+	particles.push_back(new FireWork({ 20,0, zVal + 5.f}, { 0, 40, 0 }, 1, 1, { gen3, gen1 }, { 0.5, 1, 1, 1 }));
+
+	particles.push_back(new FireWork({ -15,0, zVal + 30.f }, { 0, 30, 0 }, 1, 3, { gen2 }, { 0, 1, 1, 1 }));
+	particles.push_back(new FireWork({ 15,0, zVal + 30.f }, { 0, 30, 0 }, 1, 3, { gen2 }, { 0, 1, 1, 1 }));
+}
+
 
 
 

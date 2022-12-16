@@ -9,6 +9,8 @@ public:
 
 	list<Particle*> generateParticles(double t) override;
 
+	void ChangePos(Vector3 newP) { model->setPos(newP); };
+
 protected:
 
 	Vector3 vel_width, pos_width;

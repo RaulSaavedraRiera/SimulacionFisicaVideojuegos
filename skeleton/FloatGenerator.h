@@ -4,6 +4,7 @@ class FloatGenerator : public ForceGenerator
 {
 public:
 	FloatGenerator(float h, float v, float d);
+	FloatGenerator(Vector3 pos, Vector3 size, float v, float d);
 	~FloatGenerator();
 
 	virtual void updateForce(Particle* p, double t);
@@ -17,5 +18,8 @@ protected:
 	float _gravity = 9.8;
 
 	Particle* _liquid_particle;
+
+
+	const float xSize = 30, zSize = 10, playerForce = 100;
 };
 

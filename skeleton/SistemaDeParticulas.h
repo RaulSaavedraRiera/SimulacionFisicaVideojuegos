@@ -20,6 +20,8 @@
 #include "SpringForcegenerator.h"
 #include "FloatGenerator.h"
 
+class RigidBodyForceRegistry;
+ 
 class SistemaDeParticulas
 {
 public:
@@ -46,6 +48,12 @@ public:
 	void Update(double t);
 
 	void CreateParticleCanon(Vector3 p, int dir);
+	void CreateParticlesDrag(Vector3 p, int dir);
+	void CreateWaterZone(Vector3 p, physx::PxRigidDynamic* player, RigidBodyForceRegistry* forces);
+	void CreateBouncyZone(Vector3 p);
+
+	void ActualicePlayerTrail(Vector3 pos);
+	void LaunchFireWorksWin(int zVal);
 
 protected:
 
@@ -100,5 +108,13 @@ protected:
 	//para practica final
 	Particle* cannonParticle;
 	GausianSystem cannonSystem;
+	Particle* dragParticle;
+	GausianSystem dragSystem;
+	UniformSystem trail;
+	Particle* trailParticle;
+
+	UniformParticleGenerator* trailPlayer = nullptr;
+
+	const int waterParticlesN = 10;
 };
 

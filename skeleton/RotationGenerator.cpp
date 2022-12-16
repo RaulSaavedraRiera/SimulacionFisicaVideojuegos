@@ -6,7 +6,7 @@ RotationGenerator::RotationGenerator(double k_, double R_, Vector3 p) : k(k_), R
 
 void RotationGenerator::updateForceRigids(physx::PxRigidDynamic* rigidBody, double t)
 {
-	if (!enable)
+	if (!enabled)
 		return;
 
 

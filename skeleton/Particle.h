@@ -14,6 +14,7 @@ public:
 	Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 color = { 1, 1, 1, 1 },Vector3 acc_ = { 0, -2 , 0 }, float damping_ = 0.999, double mass = 20, bool implicit = true);
 	Particle(Vector3 pos_, double size_, Vector4 color_);
 	Particle(Vector3 pos_, double sizeXZ);
+	Particle(Vector3 pos_, Vector3 size_, Vector4 color_);
 	~Particle();
 
 
@@ -55,6 +56,6 @@ protected:
 
 	bool implicit;
 
-	const float yMin = -10, yMax = 50;
+	const float yMin = -10, yMax = 50, limitX = 50;
 };
 

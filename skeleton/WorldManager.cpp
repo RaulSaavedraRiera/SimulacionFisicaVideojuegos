@@ -9,19 +9,71 @@ WorldManager::WorldManager(PxPhysics* p, PxScene* s, SistemaDeParticulas* partic
 	rigids = list<PxRigidDynamic*>();
 
 	forceRegistry = new RigidBodyForceRegistry();
-
-	srand(time(NULL));
-
-	//generateRotationZone({ 0, 0, 0 });
-	//generateHorizontalWallsZone({ 0,0,5 });
-
-	generateCanonZone({ 0, 0, 0 });
 }
 
 WorldManager::~WorldManager()
 {
 	generators.clear();
 	rigids.clear();
+}
+
+
+void WorldManager::generateLevel() {
+	srand(time(NULL));
+
+	//generateRotationZone({ 0, 0, 0 });
+	//generateHorizontalWallsZone({ 0,0,5 });
+	//generateCanonZone({ 0, 0, 0 });
+	//generateDragZone({ 0, 0, 0 });
+	//generateWaterZone({ 0, 0, 0 });
+	//generateBouncyZone({ 0, 0, 0 });
+
+	generateFloor({ 0,0, sizeZoneZ / 2 });
+
+
+
+
+	float value = 50, currentV = 100;
+	winZ = value * 11;
+
+	generateBouncyZone({ 0, 0, value });
+
+
+	for (int i = 0; i < 10; i++)
+	{
+
+		if (i % 2 == 0) {
+			switch (rand() % 6)
+			{
+			case 0:
+				generateRotationZone({ 0, 0, currentV });
+				break;
+			case 1:
+				generateHorizontalWallsZone({ 0,0, currentV });
+				break;
+			case 2:
+				generateCanonZone({ 0, 0, currentV });
+				break;
+			case 3:
+				generateDragZone({ 0, 0, currentV });
+				break;
+			case 4:
+				generateWaterZone({ 0, 0, currentV });
+				break;
+
+			}
+		}
+		else
+		{
+			generateHorizontalWallsZone({ 0,0, currentV });
+
+		}
+
+
+		currentV += value;
+	}
+
+
 }
 
 void WorldManager::InputActions(char c)
@@ -122,6 +174,18 @@ void WorldManager::update(double t)
 
 	if (player->getGlobalPose().p.y < minY)
 		controller->resetPosition();
+
+	else {
+		particleController->ActualicePlayerTrail(controller->getPlayerPos());
+
+		if (player->getGlobalPose().p.z > winZ && !win)
+		{
+			win = true;
+			particleController->LaunchFireWorksWin(winZ);
+		}
+
+	}
+
 }
 
 PxRigidDynamic* WorldManager::instanciatePlayer(PlayerController* c, Vector3 p, float size_)
@@ -163,7 +227,7 @@ void WorldManager::generateFloor(Vector3 pos) {
 
 void WorldManager::generateRotationZone(Vector3 pos)
 {
-	generateFloor(pos);
+	//generateFloor(pos);
 
 	list<ForceGenerator*> forces = list<ForceGenerator*>();
 	forces.push_back(new RotationGenerator(10, 30, pos));
@@ -173,7 +237,7 @@ void WorldManager::generateRotationZone(Vector3 pos)
 
 void WorldManager::generateHorizontalWallsZone(Vector3 pos)
 {
-	generateFloor(pos);
+	//generateFloor(pos);
 
 	list<ForceGenerator*> forces = list<ForceGenerator*>();
 	int dir = rand() % 2;
@@ -188,8 +252,7 @@ void WorldManager::generateHorizontalWallsZone(Vector3 pos)
 
 void WorldManager::generateCanonZone(Vector3 pos)
 {
-	generateFloor(pos);
-
+	//generateFloor(pos);
 
 	int dir;
 	if (rand() % 2 == 1)
@@ -200,6 +263,31 @@ void WorldManager::generateCanonZone(Vector3 pos)
 	particleController->CreateParticleCanon(pos + Vector3(-dir * 30, 0, -10), dir);
 }
 
+void WorldManager::generateDragZone(Vector3 pos)
+{
+	//generateFloor(pos);
+
+	int dir;
+	if (rand() % 2 == 1)
+		dir = 1;
+	else
+		dir = -1;
+
+	particleController->CreateParticlesDrag(pos + Vector3(0, 0, 0), dir);
+}
+
+
+void WorldManager::generateWaterZone(Vector3 pos)
+{
+	particleController->CreateWaterZone(pos, player, forceRegistry);
+}
+
+void WorldManager::generateBouncyZone(Vector3 pos)
+{
+	//generateFloor(pos);
+	particleController->CreateBouncyZone(pos);
+}
+
 void WorldManager::generateRigids(std::list<PxRigidDynamic*> d, std::list<ForceGenerator*> generatorsAttached) {
 
 	for (auto dynamic : d) {
@@ -208,8 +296,8 @@ void WorldManager::generateRigids(std::list<PxRigidDynamic*> d, std::list<ForceG
 		for (auto g : generatorsAttached)
 			forceRegistry->addRegistry(g, dynamic);
 	}
-	
-		
+
+
 	generatorsAttached.clear();
 	d.clear();
 }
