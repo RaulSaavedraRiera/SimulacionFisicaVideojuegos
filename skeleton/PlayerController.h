@@ -22,6 +22,8 @@ public:
 
 	void addForce(char c);
 
+	bool CollisionWithParticle(Vector3 posParticle, Vector3 areaParticle);
+
 
 protected:
 

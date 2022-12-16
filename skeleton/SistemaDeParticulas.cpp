@@ -5,6 +5,7 @@
 #include "RenderUtils.hpp"
 #include <PxScene.h>
 #include "RigidBodyForceRegistry.h"
+#include "PlayerController.h"
 
 using namespace physx;
 
@@ -46,7 +47,7 @@ SistemaDeParticulas::SistemaDeParticulas()
 	trailParticle = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
 
 	cannonSystem.devTip_pos = { 0, 0, 0 }; cannonSystem.devTip_vel = { 10, 0, 0 }; cannonSystem.n_particles = 10; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
-	dragSystem.devTip_pos = { 1, 0, 1 }; dragSystem.devTip_vel = { 0, 0, 0 }; dragSystem.n_particles = 3; dragSystem.random = 1; dragSystem.randomPos = 4;
+	dragSystem.devTip_pos = { 1, 0, 1 }; dragSystem.devTip_vel = { 0, 0, 0 }; dragSystem.n_particles = 3; dragSystem.random = 1; dragSystem.randomPos = 7;
 	trail.pos_width = { 0, 0, 0 }; trail.vel_width = { 0, 0, 0 }; trail.n_particles = 25; trail.random = 0.1; trail.randomPos = 0.5;
 
 }
@@ -449,23 +450,30 @@ void SistemaDeParticulas::CreateParticleCanon(Vector3 p, int dir) {
 
 void SistemaDeParticulas::CreateParticlesDrag(Vector3 p, int dir)
 {
-	Vector3 v = { dir * 7.f, 5, 0 };
+	//Vector3 v = { dir * 7.f, 5, 0 };
+	Vector3 v = { 0, 0, 0 };
 
 	list<ForceGenerator*> forcesInZone = list<ForceGenerator*>();
 
+	/*forcesInZone.push_front(
+		new UniformWindGenerator(20, 10, p, { dir * 10.f, 0, 0 }, 30));*/
 	forcesInZone.push_front(
-		new UniformWindGenerator(20, 10, p, { dir * 10.f, 0, 0 }, 30));
+		new UniformWindGenerator(20, 10, p, { 0, -10.f, 0 }, 30));
+
 	forcesInZone.front()->enabled = true;
+	/*forcesInZone.push_front(
+		explosion = new Explosion(10000, 20, { p.x + dir * 10, p.y, p.z - 15 }));*/
 	forcesInZone.push_front(
-		explosion = new Explosion(10000, 20, { p.x + dir * 10, p.y, p.z - 15 }));
+		explosion = new Explosion(10000, 20, {p.x, p.y, p.z }));
 	forcesInZone.front()->enabled = true;
 
-
-	auto g = new GaussianParticleGenerator(this, "dragZone", dragParticle->clone(), dragSystem.n_particles, { p.x - dir * 30, 5, p.z- 15 }, v, dragSystem.devTip_pos, dragSystem.devTip_vel, dragSystem.random, dragSystem.randomPos, 2,
+	// { p.x - dir * 30, 5, p.z- 15 }
+	auto g = new GaussianParticleGenerator(this, "dragZone", dragParticle->clone(), dragSystem.n_particles, { p.x, p.y+30, p.z }, v, dragSystem.devTip_pos, dragSystem.devTip_vel, dragSystem.random, dragSystem.randomPos, 2,
 		forceRegistry, forcesInZone);
 
-	g->setXRandomPosMod(0);
-	g->setYRandomPosMod(0.5);
+	g->setXRandomPosMod(2);
+	g->setZRandomPosMod(2);
+	g->setYRandomPosMod(0);
 	generators.push_back(g);
 
 
@@ -475,7 +483,7 @@ void SistemaDeParticulas::CreateWaterZone(Vector3 pos, physx::PxRigidDynamic* pl
 
 
 
-	floatG = new FloatGenerator(pos, { 30, 1, 24 }, 1, 1000);
+	floatG = new FloatGenerator({pos.x, pos.y + 1, pos.z}, {30, 1, 25}, 1, 1000);
 
 	hardGravity = new GravityForceGenerator({ 0, -9.8, 0 });
 	hardGravity->enabled = true;
@@ -532,6 +540,21 @@ void SistemaDeParticulas::ActualicePlayerTrail(Vector3 pos){
 		
 
 	trailPlayer->ChangePos(pos);
+}
+
+bool SistemaDeParticulas::CheckParticlePlayerCollision(PlayerController* player)
+{
+	auto i = particles.begin();
+
+	while (i != particles.end()) {
+
+		if (player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
+			return true;
+
+		i++;
+	}
+
+	return false;
 }
 
 void SistemaDeParticulas::LaunchFireWorksWin(int zVal) {

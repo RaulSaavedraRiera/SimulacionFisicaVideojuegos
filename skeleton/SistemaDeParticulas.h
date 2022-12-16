@@ -21,6 +21,7 @@
 #include "FloatGenerator.h"
 
 class RigidBodyForceRegistry;
+class PlayerController;
  
 class SistemaDeParticulas
 {
@@ -53,6 +54,7 @@ public:
 	void CreateBouncyZone(Vector3 p);
 
 	void ActualicePlayerTrail(Vector3 pos);
+	bool CheckParticlePlayerCollision(PlayerController* player);
 	void LaunchFireWorksWin(int zVal);
 
 protected:

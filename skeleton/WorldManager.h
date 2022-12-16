@@ -69,7 +69,7 @@ protected:
 	SistemaDeParticulas* particleController;
 
 	const float minY = -10;
-	const float sizeZoneZ = 550, sizeZoneX = 30;
+	const float sizeZoneZ = 50, sizeZoneX = 30;
 	float winZ;
 
 	bool win = false;

@@ -28,7 +28,8 @@ void WorldManager::generateLevel() {
 	//generateWaterZone({ 0, 0, 0 });
 	//generateBouncyZone({ 0, 0, 0 });
 
-	generateFloor({ 0,0, sizeZoneZ / 2 });
+	generateFloor({ 0,0, 0 });
+	
 
 
 
@@ -36,7 +37,10 @@ void WorldManager::generateLevel() {
 	float value = 50, currentV = 100;
 	winZ = value * 11;
 
+
+	generateFloor({ 0,0, value * 11 });
 	generateBouncyZone({ 0, 0, value });
+	//generateDragZone({0, 0, value*2});
 
 
 	for (int i = 0; i < 10; i++)
@@ -172,12 +176,13 @@ void WorldManager::update(double t)
 	for (auto g : generators)
 		generateRigids(g->generateBodies(t), g->getForces());
 
-	if (player->getGlobalPose().p.y < minY)
+	if (player->getGlobalPose().p.y < minY || particleController->CheckParticlePlayerCollision(controller))
 		controller->resetPosition();
 
 	else {
 		particleController->ActualicePlayerTrail(controller->getPlayerPos());
 
+		
 		if (player->getGlobalPose().p.z > winZ && !win)
 		{
 			win = true;
@@ -227,7 +232,7 @@ void WorldManager::generateFloor(Vector3 pos) {
 
 void WorldManager::generateRotationZone(Vector3 pos)
 {
-	//generateFloor(pos);
+	generateFloor(pos);
 
 	list<ForceGenerator*> forces = list<ForceGenerator*>();
 	forces.push_back(new RotationGenerator(10, 30, pos));
@@ -237,7 +242,7 @@ void WorldManager::generateRotationZone(Vector3 pos)
 
 void WorldManager::generateHorizontalWallsZone(Vector3 pos)
 {
-	//generateFloor(pos);
+	generateFloor(pos);
 
 	list<ForceGenerator*> forces = list<ForceGenerator*>();
 	int dir = rand() % 2;
@@ -265,7 +270,7 @@ void WorldManager::generateCanonZone(Vector3 pos)
 
 void WorldManager::generateDragZone(Vector3 pos)
 {
-	//generateFloor(pos);
+	generateFloor(pos);
 
 	int dir;
 	if (rand() % 2 == 1)
@@ -284,7 +289,7 @@ void WorldManager::generateWaterZone(Vector3 pos)
 
 void WorldManager::generateBouncyZone(Vector3 pos)
 {
-	//generateFloor(pos);
+	generateFloor(pos);
 	particleController->CreateBouncyZone(pos);
 }
 

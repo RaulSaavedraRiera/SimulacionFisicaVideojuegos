@@ -32,6 +32,17 @@ void PlayerController::addForce(char c)
 	player->addTorque(v * k * 2000);
 }
 
+bool PlayerController::CollisionWithParticle(Vector3 posParticle, Vector3 areaParticle)
+{
+	if (abs(posParticle.x - player->getGlobalPose().p.x) > 5 || abs(posParticle.y - player->getGlobalPose().p.y) > 5 || abs(posParticle.z - player->getGlobalPose().p.z) > 5)
+		return false;
+
+	if (abs(player->getGlobalPose().p.x - posParticle.x) < areaParticle.x / 2 + size / 2 && abs(player->getGlobalPose().p.y - posParticle.y) < areaParticle.y / 2 + size / 2 &&
+		abs(player->getGlobalPose().p.z - posParticle.z) < areaParticle.z / 2 + size / 2)
+		return true;
+
+}
+
 void PlayerController::resetPosition()
 {
 	player->setGlobalPose(PxTransform(iniPos));
