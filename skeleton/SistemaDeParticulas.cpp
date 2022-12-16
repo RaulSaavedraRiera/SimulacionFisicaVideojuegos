@@ -248,12 +248,12 @@ void SistemaDeParticulas::GenerateSpringDemo()
 {
 
 	//para sin gravedad tienen que estar alejadas, p.x = -10 s.x = 10
-	Particle* p1 = new Particle({ 0, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	Particle* p1 = new Particle({ 20, 10, 0 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
 	
 
 
 	//5, 10 para no gravedad
-	springIdle = new SpringForceGenerator(5, 15, { 0, 10, 0 });
+	springIdle = new SpringForceGenerator(20, 10, { 0, 10, 0 });
 
 	forceRegistry->addRegistry(springIdle, p1);
 	forceRegistry->addRegistry(slowGravity, p1);
@@ -372,7 +372,8 @@ void SistemaDeParticulas::GenerateFloatDemo()
 	std::uniform_real_distribution<float> pos(-45, 45);
 
 	double sM = sizeMass(rnd);
-	Particle* p = new Particle({ pos(rnd), 5, pos(rnd)}, {0, 0, 0}, sM, 99999, {1, 0, (float)(1/sM), 1}, {0, 0 , 0}, 0.35, 20,sM);
+	Particle* p = new Particle({ pos(rnd), 5, pos(rnd)}, {0, 0, 0}, sM, 99999, {1, 0, (float)(1/sM), 1}, {0, 0 , 0}, 0.35, sM, true, true);
+	p->setVolume(sM * sM * sM);
 	particles.push_back(p);
 
 	forceRegistry->addRegistry(floatG, p);
