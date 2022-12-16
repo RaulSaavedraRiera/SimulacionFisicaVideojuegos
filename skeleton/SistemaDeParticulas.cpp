@@ -462,7 +462,8 @@ void SistemaDeParticulas::CreateParticlesDrag(Vector3 p, int dir)
 	/*forcesInZone.push_front(
 		new UniformWindGenerator(20, 10, p, { dir * 10.f, 0, 0 }, 30));*/
 	forcesInZone.push_front(
-		new UniformWindGenerator(20, 10, p, { 0, -10.f, 0 }, 30));
+		// UniformWindGenerator(20, 10, p, { 0, -10.f, 0 }, 30));
+		new GravityForceGenerator({ 0, -2, 0 }));
 
 	forcesInZone.front()->enabled = true;
 	/*forcesInZone.push_front(
