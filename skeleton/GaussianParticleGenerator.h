@@ -16,6 +16,8 @@ public:
 	void setYRandomPosMod(double newV) { yRandomMod = newV; };
 	void setZRandomPosMod(double newV) { zRandomMod = newV; };
 
+	void GenerationsCanCollideWithPlayer() { model->setCanColPlayer(true); }
+
 protected:
 
 	normal_distribution<double>d; 

@@ -34,54 +34,52 @@ void WorldManager::generateLevel() {
 	//generateWaterZone({ 0, 0, 0 });
 	//generateBouncyZone({ 0, 0, 0 });
 
-	generateFloor({ 0,0, 0 });
-	
-
-
-
-
 	float value = 50, currentV = 100;
 	winZ = value * 11;
 
+	//generateDragZone({ 0,0,0 });
 
+	generateFloor({ 0,0, 0 });
 	generateFloor({ 0,0, value * 11 });
-	//generateBouncyZone({ 0, 0, value });
-	generateWaterZone({0, 0, value});
+	//generateFloor({ 0,10, 50 });
+	
+	generateBouncyZone({ 0, 0, value });
+	//generateWaterZone({0, 0, value});
+	//generateHorizontalWallsZone({ 0, 5, value*2 });
+
+	for (int i = 0; i < 10; i++)
+	{
+
+		if (i % 2 == 0) {
+			switch (rand() % 5)
+			{
+			case 0:
+				generateRotationZone({ 0, 0, currentV });
+				break;
+			case 1:
+				generateHorizontalWallsZone({ 0,0, currentV });
+				break;
+			case 2:
+				generateCanonZone({ 0, 0, currentV });
+				break;
+			case 3:
+				generateDragZone({ 0, 0, currentV });
+				break;
+			case 4:
+				generateWaterZone({ 0, 0, currentV });
+				break;
+
+			}
+		}
+		else
+		{
+			generateHorizontalWallsZone({ 0,0, currentV });
+
+		}
 
 
-	//for (int i = 0; i < 10; i++)
-	//{
-
-	//	if (i % 2 == 0) {
-	//		switch (rand() % 6)
-	//		{
-	//		case 0:
-	//			generateRotationZone({ 0, 0, currentV });
-	//			break;
-	//		case 1:
-	//			generateHorizontalWallsZone({ 0,0, currentV });
-	//			break;
-	//		case 2:
-	//			generateCanonZone({ 0, 0, currentV });
-	//			break;
-	//		case 3:
-	//			generateDragZone({ 0, 0, currentV });
-	//			break;
-	//		case 4:
-	//			generateWaterZone({ 0, 0, currentV });
-	//			break;
-
-	//		}
-	//	}
-	//	else
-	//	{
-	//		generateHorizontalWallsZone({ 0,0, currentV });
-
-	//	}
-
-
-	//	currentV += value;
-	//}
+		currentV += value;
+	}
 
 
 }
@@ -263,7 +261,7 @@ void WorldManager::generateHorizontalWallsZone(Vector3 pos)
 
 void WorldManager::generateCanonZone(Vector3 pos)
 {
-	//generateFloor(pos);
+	generateFloor(pos);
 
 	int dir;
 	if (rand() % 2 == 1)

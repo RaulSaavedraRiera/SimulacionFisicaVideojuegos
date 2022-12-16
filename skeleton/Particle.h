@@ -20,7 +20,7 @@ public:
 
 	virtual bool integrate(double t);
 
-	virtual Particle* clone() const { return new Particle(pos.p, vel, size, timeDestroy, color, acc, damping, mass); };
+	virtual Particle* clone() const { return new Particle(pos.p, vel, size, timeDestroy, color, acc, damping, mass, implicit, colWithPlayer); };
 
 	void clearForce() { force = { 0,0,0 }; };
 	void addForce(const Vector3& f) { force += f; };
@@ -38,8 +38,10 @@ public:
 	const double getMass() { return mass; };
 	const Vector3 getPos() { return pos.p; };
 	const Vector3 getVel() { return vel; };
+	const double getSize() { return size; };
 	const double getVolume() { return volume; };
 	const bool canColWithPlayer() { return colWithPlayer; };
+	const bool isSphere() { return sphere; };
 
 protected:
 	physx::PxTransform pos;
@@ -60,6 +62,7 @@ protected:
 
 	bool implicit;
 	bool colWithPlayer;
+	bool sphere;
 
 	const float yMin = -10, yMax = 50, limitX = 50;
 };

@@ -17,7 +17,7 @@ SistemaDeParticulas::SistemaDeParticulas()
 	laserP = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
 	
 
-	fuenteS.devTip_pos = { 1, 0, 1 }; fuenteS.devTip_vel = { 3, 0, 6 }; fuenteS.n_particles = 4; fuenteS.random = 1; fuenteS.randomPos = 0.2;
+	fuenteS.devTip_pos = { 1, 0, 1 }; fuenteS.devTip_vel = { 3, 0, 6 }; fuenteS.n_particles = 4; fuenteS.random = 1; fuenteS.randomPos = 0.5;
 	snowS.pos_width = { 1, 0, 1 }; snowS.vel_width = { 6, 6, 6 }; snowS.n_particles = 4; snowS.random = 100; snowS.randomPos = 100;
 	laserS.pos_width = { 1, 0, 1 }; laserS.vel_width = { 0, 25, 0 }; laserS.n_particles = 25; laserS.random = 0.1; laserS.randomPos = 3;
 
@@ -45,10 +45,10 @@ SistemaDeParticulas::SistemaDeParticulas()
 	cannonParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.5, 5, { 1, 0, 0, 1 });
 	cannonParticle->setCanColPlayer(true);
 	dragParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.75, 20, { 1, 0.5, 0, 1 });
-	cannonParticle->setCanColPlayer(true);
+	dragParticle->setCanColPlayer(true);
 	trailParticle = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
 
-	cannonSystem.devTip_pos = { 0, 0, 0 }; cannonSystem.devTip_vel = { 10, 0, 0 }; cannonSystem.n_particles = 10; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
+	cannonSystem.devTip_pos = { 0, 0, 0 }; cannonSystem.devTip_vel = { 10, 0, 0 }; cannonSystem.n_particles = 10; cannonSystem.random = 2; cannonSystem.randomPos = 0.2;
 	dragSystem.devTip_pos = { 1, 0, 1 }; dragSystem.devTip_vel = { 0, 0, 0 }; dragSystem.n_particles = 3; dragSystem.random = 1; dragSystem.randomPos = 7;
 	trail.pos_width = { 0, 0, 0 }; trail.vel_width = { 0, 0, 0 }; trail.n_particles = 25; trail.random = 0.1; trail.randomPos = 0.5;
 
@@ -445,10 +445,11 @@ void SistemaDeParticulas::Update(double t)
 
 void SistemaDeParticulas::CreateParticleCanon(Vector3 p, int dir) {
 
-	Vector3 v = { dir * 7.f, 5, 0 };
+	Vector3 v = { dir * 7.f, 3, 0 };
 
-	generators.push_back(
-		new GaussianParticleGenerator(this, "cannon", cannonParticle->clone(), cannonSystem.n_particles, p, v, cannonSystem.devTip_pos, cannonSystem.devTip_vel, cannonSystem.random, cannonSystem.randomPos, 3));
+	
+	generators.push_back(new GaussianParticleGenerator(this, "cannon", cannonParticle->clone(), cannonSystem.n_particles, p, v, cannonSystem.devTip_pos, cannonSystem.devTip_vel, cannonSystem.random, cannonSystem.randomPos, 3));
+
 }
 
 void SistemaDeParticulas::CreateParticlesDrag(Vector3 p, int dir)
@@ -486,7 +487,7 @@ void SistemaDeParticulas::CreateWaterZone(Vector3 pos, physx::PxRigidDynamic* pl
 
 
 
-	floatG = new FloatGenerator({pos.x, pos.y + 1, pos.z}, {30, 1, 25}, 1, 1000);
+	floatG = new FloatGenerator({pos.x, pos.y, pos.z}, {30, 1, 25}, 1, 1000);
 
 	hardGravity = new GravityForceGenerator({ 0, -9.8, 0 });
 	hardGravity->enabled = true;
@@ -518,17 +519,17 @@ void SistemaDeParticulas::CreateBouncyZone(Vector3 p) {
 
 	Particle* p1;
 
-	p1 = new Particle({ p.x - 15, p.y+2, p.z-10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	p1 = new Particle({ p.x - 15, p.y+2, p.z-10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false, true);
 	springIdle = new SpringForceGenerator(5, 10, { p.x + 15, p.y + 2, p.z - 10 });
 	forceRegistry->addRegistry(springIdle, p1);
 	particles.push_back(p1);
 
-	p1 = new Particle({ p.x + 15, p.y + 2, p.z }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	p1 = new Particle({ p.x + 15, p.y + 2, p.z }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false, true);
 	springIdle = new SpringForceGenerator(5, 10, { p.x - 15, p.y + 2, p.z});
 	forceRegistry->addRegistry(springIdle, p1);
 	particles.push_back(p1);
 
-	p1 = new Particle({ p.x - 15, p.y + 2, p.z + 10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false);
+	p1 = new Particle({ p.x - 15, p.y + 2, p.z + 10 }, { 0, 0, 0 }, 1, 99999, { 1, 0, 0, 1 }, { 0, 0 , 0 }, 0.99, 2, false, true);
 	springIdle = new SpringForceGenerator(5, 10, { p.x + 15, p.y + 2, p.z + 10 });
 	forceRegistry->addRegistry(springIdle, p1);
 	particles.push_back(p1);
@@ -552,7 +553,8 @@ bool SistemaDeParticulas::CheckParticlePlayerCollision(PlayerController* player)
 
 	while (i != particles.end()) {
 
-		if ((*i)->canColWithPlayer() && player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
+		if ((*i)->canColWithPlayer() && 
+			player->CollisionWithParticle((*i)->getPos(), (*i)->getSize(), (*i)->isSphere()))
 			return true;
 
 		i++;

@@ -11,6 +11,9 @@ Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vec
 
 	inverseMass = 1 / mass;
 
+
+	sphere = !forceSquareGeometry;
+
 	if (!forceSquareGeometry)
 		render = new RenderItem(CreateShape(PxSphereGeometry(size)), &pos, color);
 	else
@@ -20,16 +23,19 @@ Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vec
 Particle::Particle(Vector3 pos_, double size_, Vector4 color_, bool colP) : pos(pos_), size(size_), color(color_), colWithPlayer(colP)
 {
 	render = new RenderItem(CreateShape(PxBoxGeometry(size, size, size)), &pos, color);
+	sphere = false;
 }
 
 Particle::Particle(Vector3 pos_, double sizeXZ, bool colP) : pos(pos_), size(sizeXZ), colWithPlayer(colP)
 {
 	render = new RenderItem(CreateShape(PxBoxGeometry(sizeXZ, 1, sizeXZ)), &pos, { 0,0,1,0 });
+	sphere = false;
 }
 
 Particle::Particle(Vector3 pos_, Vector3 size_, Vector4 color_, bool colP) : pos(pos_), size(size_.x), colWithPlayer(colP)
 {
 	render = new RenderItem(CreateShape(PxBoxGeometry(size_.x, size_.y, size_.z)), &pos, color_);
+	sphere = false;
 }
 
 Particle::~Particle()

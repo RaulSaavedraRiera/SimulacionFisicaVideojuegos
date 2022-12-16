@@ -32,14 +32,28 @@ void PlayerController::addForce(char c)
 	player->addTorque(v * k * 2000);
 }
 
-bool PlayerController::CollisionWithParticle(Vector3 posParticle, Vector3 areaParticle)
+bool PlayerController::CollisionWithParticle(Vector3 posParticle, float sizeP, bool sphere)
 {
-	if (abs(posParticle.x - player->getGlobalPose().p.x) > 5 || abs(posParticle.y - player->getGlobalPose().p.y) > 5 || abs(posParticle.z - player->getGlobalPose().p.z) > 5)
+	if (abs(posParticle.x - player->getGlobalPose().p.x) > sizeP + size || abs(posParticle.y - player->getGlobalPose().p.y) > sizeP + size || abs(posParticle.z - player->getGlobalPose().p.z) > sizeP + size)
 		return false;
 
-	if (abs(player->getGlobalPose().p.x - posParticle.x) < areaParticle.x / 2 + size / 2 && abs(player->getGlobalPose().p.y - posParticle.y) < areaParticle.y / 2 + size / 2 &&
-		abs(player->getGlobalPose().p.z - posParticle.z) < areaParticle.z / 2 + size / 2)
-		return true;
+	if (sphere) {
+		float dx = posParticle.x - player->getGlobalPose().p.x;
+		float dy = posParticle.y - player->getGlobalPose().p.y;
+		float dz = posParticle.z - player->getGlobalPose().p.z;
+		float distance = sqrt(dx * dx + dy * dy + dz * dz);
+
+		return distance < (size + sizeP);
+	}
+	else
+	{
+		float dx = fabs(player->getGlobalPose().p.x - posParticle.x);
+		float dy = fabs(player->getGlobalPose().p.y - posParticle.y);
+		float dz = fabs(player->getGlobalPose().p.z - posParticle.z);
+		float distance = sqrt(dx * dx + dy * dy + dz * dz);
+
+		return distance < size + sizeP;
+	}
 
 }
 

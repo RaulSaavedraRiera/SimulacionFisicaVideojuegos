@@ -20,6 +20,6 @@ protected:
 	Particle* _liquid_particle;
 
 
-	const float xSize = 30, zSize = 10, playerForce = 100;
+	const float xSize = 30, zSize = 50, playerForce = 100;
 };
 
