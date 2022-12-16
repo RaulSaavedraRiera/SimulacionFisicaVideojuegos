@@ -46,7 +46,7 @@ void FloatGenerator::updateForce(Particle* p, double t)
 		immersed = (h0 - h) / _height + 0.5;
 	}
 
-	f.y = _liquid_density * _volume * immersed * 9.8;
+	f.y = _liquid_density * p->getVolume() * immersed * 9.8;
 
 	p->addForce(f);
 

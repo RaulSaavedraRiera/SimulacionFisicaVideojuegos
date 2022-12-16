@@ -2,7 +2,7 @@
 #include <math.h>
 using namespace physx;
 
-Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 c, Vector3 acc_, float damping_, double m, bool i) : pos(pos_), vel(vel_), timeDestroy(tDestroy), size(size_), color(c), mass(m), implicit(i)
+Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vector4 c, Vector3 acc_, float damping_, double m, bool i, bool colPlayer) : pos(pos_), vel(vel_), timeDestroy(tDestroy), size(size_), color(c), mass(m), implicit(i), colWithPlayer(colPlayer)
 {
 	acc = acc_;
 	damping = damping_;
@@ -14,17 +14,18 @@ Particle::Particle(Vector3 pos_, Vector3 vel_, float size_, double tDestroy, Vec
 	render = new RenderItem(CreateShape(PxSphereGeometry(size)), &pos, color);
 }
 
-Particle::Particle(Vector3 pos_, double size_, Vector4 color_) : pos(pos_), size(size_), color(color_)
+Particle::Particle(Vector3 pos_, double size_, Vector4 color_, bool colP) : pos(pos_), size(size_), color(color_), colWithPlayer(colP)
 {
 	render = new RenderItem(CreateShape(PxBoxGeometry(size, size, size)), &pos, color);
 }
 
-Particle::Particle(Vector3 pos_, double sizeXZ) : pos(pos_), size(sizeXZ)
+Particle::Particle(Vector3 pos_, double sizeXZ, bool colP) : pos(pos_), size(sizeXZ), colWithPlayer(colP)
 {
 	render = new RenderItem(CreateShape(PxBoxGeometry(sizeXZ, 1, sizeXZ)), &pos, {0,0,1,0});
 }
 
-Particle::Particle(Vector3 pos_, Vector3 size_, Vector4 color_) : pos(pos_), size(size_.x) {
+Particle::Particle(Vector3 pos_, Vector3 size_, Vector4 color_, bool colP) : pos(pos_), size(size_.x), colWithPlayer(colP)
+{
 	render = new RenderItem(CreateShape(PxBoxGeometry(size_.x, size_.y, size_.z)), &pos, color_);
 }
 

@@ -43,7 +43,9 @@ SistemaDeParticulas::SistemaDeParticulas()
 	slowGravity = new GravityForceGenerator({ 0, -1, 0 });
 
 	cannonParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.5, 5, { 1, 0, 0, 1 });
+	cannonParticle->setCanColPlayer(true);
 	dragParticle = new Particle({ 0, 0, 0 }, { 0,0,0 }, 0.75, 20, { 1, 0.5, 0, 1 });
+	cannonParticle->setCanColPlayer(true);
 	trailParticle = new Particle({ 0 ,0, 0 }, { 0, 0, 0 }, 0.05, 2, { 1, 0.5, 0, 1 }, { 0, 0 , 0 }, 0.99);
 
 	cannonSystem.devTip_pos = { 0, 0, 0 }; cannonSystem.devTip_vel = { 10, 0, 0 }; cannonSystem.n_particles = 10; cannonSystem.random = 1; cannonSystem.randomPos = 0.2;
@@ -391,6 +393,7 @@ void SistemaDeParticulas::GenerateFloatDemo()
 
 	double sM = sizeMass(rnd);
 	Particle* p = new Particle({ pos(rnd), 5, pos(rnd) }, { 0, 0, 0 }, sM, 99999, { 1, 0, (float)(1 / sM), 1 }, { 0, 0 , 0 }, 0.35, 20, sM);
+	p->setVolume(sM * sM * sM);
 	particles.push_back(p);
 
 	forceRegistry->addRegistry(floatG, p);
@@ -548,7 +551,7 @@ bool SistemaDeParticulas::CheckParticlePlayerCollision(PlayerController* player)
 
 	while (i != particles.end()) {
 
-		if (player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
+		if (!(*i)->canColWithPlayer() && player->CollisionWithParticle((*i)->getPos(), { 1,1,1 }))
 			return true;
 
 		i++;
