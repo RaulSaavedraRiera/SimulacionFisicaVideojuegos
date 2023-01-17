@@ -139,112 +139,112 @@ void keyPress(unsigned char key, const PxTransform& camera)
 	{
 		//case 'B': break;
 		//case ' ':	break;
-	case 'E':
-	{
-		particleSystem->CreateFireWorkSystem('E');
-		break;
-	}
-	case 'R':
-	{
-		particleSystem->CreateFireWorkSystem('R');
-		break;
-	}
-	case 'T':
-	{
-		particleSystem->CreateFireWorkSystem('T');
-		break;
-	}
-	case 'Y':
-	{
-		particleSystem->CreateFireWorkSystem('Y');
-		break;
-	}
-	case 'U':
-	{
-		particleSystem->CreateFireWorkSystem('U');
-		break;
-	}
-	case 'I':
-	{
-		particleSystem->CreateFireWorkSystem('I');
-		break;
-	}
-	case 'H':
-	{
-		particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, { 0,0,0 }, { 0, 5, 5 });
-		break;
-	}
-	case 'F':
-	{
-		particleSystem->CreateParticleGenerator(SistemaDeParticulas::laser, { 0,0,0 }, { 0, 2, 0 });
-		break;
-	}
-	case 'G':
-	{
-		particleSystem->CreateParticleGenerator(SistemaDeParticulas::snow, { 0,0,0 }, { 0, 0, 0 });
-		break;
-	}
-	case 'Q':
-		particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, 10, {0, -0.5, 0}, 0.999, 350));
-		break;
-	case 'Z':
-		particleSystem->CreatePhysicsParticle('z');
-		break;
-	case 'X':
-		particleSystem->CreatePhysicsParticle('x');
-		break;
-	case 'C':
-		particleSystem->CreatePhysicsParticle('c');
-		break;
-	case 'V':
-		particleSystem->CreatePhysicsParticle('v');
-		break;
-	/*case '1':
-		particleSystem->ControlForceGenerators('1');
-		break;
-	case '2':
-		particleSystem->ControlForceGenerators('2');
-		break;
-	case '3':
-		particleSystem->ControlForceGenerators('3');
-		break;
-	case '4':
-		particleSystem->ControlForceGenerators('4');
-		break;
-	case '5':
-		particleSystem->ControlForceGenerators('5');
-		break;
-	case '6':
-		particleSystem->ControlForceGenerators('6');
-		break;
-	case '7':
-		particleSystem->ControlForceGenerators('7');
-		break;
-	case '8':
-		particleSystem->ControlForceGenerators('8');
-		break;
-	case '9':
-		particleSystem->ControlForceGenerators('9');
-		break;*/
-	case 'J':
-	case 'K':
-	case 'L':
-	case 'M':
-		worldManager->InputActions(tolower(key));
-		break;
-			
+	//case 'E':
+	//{
+	//	particleSystem->CreateFireWorkSystem('E');
+	//	break;
+	//}
+	//case 'R':
+	//{
+	//	particleSystem->CreateFireWorkSystem('R');
+	//	break;
+	//}
+	//case 'T':
+	//{
+	//	particleSystem->CreateFireWorkSystem('T');
+	//	break;
+	//}
+	//case 'Y':
+	//{
+	//	particleSystem->CreateFireWorkSystem('Y');
+	//	break;
+	//}
+	//case 'U':
+	//{
+	//	particleSystem->CreateFireWorkSystem('U');
+	//	break;
+	//}
+	//case 'I':
+	//{
+	//	particleSystem->CreateFireWorkSystem('I');
+	//	break;
+	//}
+	//case 'H':
+	//{
+	//	particleSystem->CreateParticleGenerator(SistemaDeParticulas::fuente, { 0,0,0 }, { 0, 5, 5 });
+	//	break;
+	//}
+	//case 'F':
+	//{
+	//	particleSystem->CreateParticleGenerator(SistemaDeParticulas::laser, { 0,0,0 }, { 0, 2, 0 });
+	//	break;
+	//}
+	//case 'G':
+	//{
+	//	particleSystem->CreateParticleGenerator(SistemaDeParticulas::snow, { 0,0,0 }, { 0, 0, 0 });
+	//	break;
+	//}
+	//case 'Q':
+	//	particles.push_back(new CanonBall(GetCamera()->getEye(), 180, 5, 10, {0, -0.5, 0}, 0.999, 350));
+	//	break;
+	//case 'Z':
+	//	particleSystem->CreatePhysicsParticle('z');
+	//	break;
+	//case 'X':
+	//	particleSystem->CreatePhysicsParticle('x');
+	//	break;
+	//case 'C':
+	//	particleSystem->CreatePhysicsParticle('c');
+	//	break;
+	//case 'V':
+	//	particleSystem->CreatePhysicsParticle('v');
+	//	break;
+	///*case '1':
+	//	particleSystem->ControlForceGenerators('1');
+	//	break;
+	//case '2':
+	//	particleSystem->ControlForceGenerators('2');
+	//	break;
+	//case '3':
+	//	particleSystem->ControlForceGenerators('3');
+	//	break;
+	//case '4':
+	//	particleSystem->ControlForceGenerators('4');
+	//	break;
+	//case '5':
+	//	particleSystem->ControlForceGenerators('5');
+	//	break;
+	//case '6':
+	//	particleSystem->ControlForceGenerators('6');
+	//	break;
+	//case '7':
+	//	particleSystem->ControlForceGenerators('7');
+	//	break;
+	//case '8':
+	//	particleSystem->ControlForceGenerators('8');
+	//	break;
+	//case '9':
+	//	particleSystem->ControlForceGenerators('9');
+	//	break;*/
+	//case 'J':
+	//case 'K':
+	//case 'L':
+	//case 'M':
+	//	worldManager->InputActions(tolower(key));
+	//	break;
+	//		
 	case 'W':
 	case 'A':
 	case 'S':
 	case 'D':
 		player->addForce(tolower(key));
 		break;
-	case 'B':
-		player->resetPosition();
-		break;
-	default:
-		particleSystem->ControlForceGenerators(tolower(key));
-		break;
+	//case 'B':
+	//	player->resetPosition();
+	//	break;
+	//default:
+	//	particleSystem->ControlForceGenerators(tolower(key));
+	//	break;
 	}
 }
 
