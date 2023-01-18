@@ -28,7 +28,7 @@ void WorldManager::generateLevel() {
 	srand(time(NULL));
 
 	//generateRotationZone({ 0, 0, 0 });
-	//generateHorizontalWallsZone({ 0,0,5 });
+	//generateHorizontalWallsZone({ 0,0,0 });
 	//generateCanonZone({ 0, 0, 0 });
 	//generateDragZone({ 0, 0, 0 });
 	//generateWaterZone({ 0, 0, 0 });
@@ -37,15 +37,13 @@ void WorldManager::generateLevel() {
 	float value = 50, currentV = 100;
 	winZ = value * 11;
 
-	//generateDragZone({ 0,0,0 });
+
 
 	generateFloor({ 0,0, 0 });
 	generateFloor({ 0,0, value * 11 });
-	////generateFloor({ 0,10, 50 });
-	//
+	
 	generateBouncyZone({ 0, 0, value });
-	////generateWaterZone({0, 0, value});
-	////generateHorizontalWallsZone({ 0, 5, value*2 });
+	
 
 	for (int i = 0; i < 10; i++)
 	{
